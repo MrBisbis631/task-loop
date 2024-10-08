@@ -3,6 +3,7 @@ import React from 'react';
 import useRoute from '@/Hooks/useRoute';
 import useTypedPage from '@/Hooks/useTypedPage';
 import { Head } from '@inertiajs/react';
+import { Button } from '@/components/ui/button';
 
 interface Props {
   canLogin: boolean;
@@ -51,6 +52,8 @@ export default function Welcome({
                     Register
                   </Link>
                 ) : null}
+
+                <Button className='ml-4'>click me</Button>
               </>
             )}
           </div>
