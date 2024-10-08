@@ -178,6 +178,7 @@ export default function UpdateProfileInformationForm({ user }: Props) {
           type="email"
           className="mt-1 block w-full"
           value={form.data.email}
+          autoComplete="email"
           onChange={e => form.setData('email', e.currentTarget.value)}
         />
         <InputError message={form.errors.email} className="mt-2" />

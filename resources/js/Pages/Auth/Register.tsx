@@ -53,6 +53,7 @@ export default function Register() {
           <TextInput
             id="email"
             type="email"
+            autoComplete="email"
             className="mt-1 block w-full"
             value={form.data.email}
             onChange={e => form.setData('email', e.currentTarget.value)}
