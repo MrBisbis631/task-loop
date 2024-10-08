@@ -51,8 +51,8 @@ export default function AppLayout({
 
       <Banner />
 
-      <div className="min-h-screen bg-gray-100">
-        <nav className="bg-white border-b border-gray-100">
+      <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
+        <nav className="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
           {/* <!-- Primary Navigation Menu --> */}
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between h-16">
@@ -86,7 +86,7 @@ export default function AppLayout({
                         <span className="inline-flex rounded-md">
                           <button
                             type="button"
-                            className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150"
+                            className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-700 active:bg-gray-50 dark:active:bg-gray-700 transition ease-in-out duration-150"
                           >
                             {page.props.auth.user?.current_team?.name}
 
@@ -129,7 +129,7 @@ export default function AppLayout({
                               </DropdownLink>
                             ) : null}
 
-                            <div className="border-t border-gray-200" />
+                            <div className="border-t border-gray-200 dark:border-gray-600" />
 
                             {/* <!-- Team Switcher --> */}
                             <div className="block px-4 py-2 text-xs text-gray-400">
@@ -187,7 +187,7 @@ export default function AppLayout({
                         <span className="inline-flex rounded-md">
                           <button
                             type="button"
-                            className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150"
+                            className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-700 active:bg-gray-50 dark:active:bg-gray-700 transition ease-in-out duration-150"
                           >
                             {page.props.auth.user?.name}
 
@@ -223,7 +223,7 @@ export default function AppLayout({
                       </DropdownLink>
                     ) : null}
 
-                    <div className="border-t border-gray-200"></div>
+                    <div className="border-t border-gray-200 dark:border-gray-600"></div>
 
                     {/* <!-- Authentication --> */}
                     <form onSubmit={logout}>
@@ -239,7 +239,7 @@ export default function AppLayout({
                   onClick={() =>
                     setShowingNavigationDropdown(!showingNavigationDropdown)
                   }
-                  className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
+                  className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out"
                 >
                   <svg
                     className="h-6 w-6"
@@ -290,7 +290,7 @@ export default function AppLayout({
             </div>
 
             {/* <!-- Responsive Settings Options --> */}
-            <div className="pt-4 pb-1 border-t border-gray-200">
+            <div className="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
               <div className="flex items-center px-4">
                 {page.props.jetstream.managesProfilePhotos ? (
                   <div className="flex-shrink-0 mr-3">
@@ -303,7 +303,7 @@ export default function AppLayout({
                 ) : null}
 
                 <div>
-                  <div className="font-medium text-base text-gray-800">
+                  <div className="font-medium text-base text-gray-800 dark:text-gray-200">
                     {page.props.auth.user?.name}
                   </div>
                   <div className="font-medium text-sm text-gray-500">
@@ -337,7 +337,7 @@ export default function AppLayout({
                 {/* <!-- Team Management --> */}
                 {page.props.jetstream.hasTeamFeatures ? (
                   <>
-                    <div className="border-t border-gray-200"></div>
+                    <div className="border-t border-gray-200 dark:border-gray-600"></div>
 
                     <div className="block px-4 py-2 text-xs text-gray-400">
                       Manage Team
@@ -362,7 +362,7 @@ export default function AppLayout({
                       </ResponsiveNavLink>
                     ) : null}
 
-                    <div className="border-t border-gray-200"></div>
+                    <div className="border-t border-gray-200 dark:border-gray-600"></div>
 
                     {/* <!-- Team Switcher --> */}
                     <div className="block px-4 py-2 text-xs text-gray-400">
@@ -400,7 +400,7 @@ export default function AppLayout({
 
         {/* <!-- Page Heading --> */}
         {renderHeader ? (
-          <header className="bg-white shadow">
+          <header className="bg-white dark:bg-gray-800 shadow">
             <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
               {renderHeader()}
             </div>

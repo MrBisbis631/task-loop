@@ -34,7 +34,7 @@ export default function Login({ canResetPassword, status }: Props) {
       <Head title="Login" />
 
       {status && (
-        <div className="mb-4 font-medium text-sm text-green-600">
+        <div className="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
           {status}
         </div>
       )}
@@ -77,7 +77,7 @@ export default function Login({ canResetPassword, status }: Props) {
                 form.setData('remember', e.currentTarget.checked ? 'on' : '')
               }
             />
-            <span className="ml-2 text-sm text-gray-600">
+            <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">
               Remember me
             </span>
           </label>
@@ -88,7 +88,7 @@ export default function Login({ canResetPassword, status }: Props) {
             <div>
               <Link
                 href={route('password.request')}
-                className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
               >
                 Forgot your password?
               </Link>
@@ -98,7 +98,7 @@ export default function Login({ canResetPassword, status }: Props) {
           <div className="flex items-center justify-end">
             <Link
               href={route('register')}
-              className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
             >
               Need an account?
             </Link>

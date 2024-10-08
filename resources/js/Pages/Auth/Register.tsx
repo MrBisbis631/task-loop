@@ -53,7 +53,6 @@ export default function Register() {
           <TextInput
             id="email"
             type="email"
-            autoComplete="email"
             className="mt-1 block w-full"
             value={form.data.email}
             onChange={e => form.setData('email', e.currentTarget.value)}
@@ -114,7 +113,7 @@ export default function Register() {
                   <a
                     target="_blank"
                     href={route('terms.show')}
-                    className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    className="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
                   >
                     Terms of Service
                   </a>
@@ -122,7 +121,7 @@ export default function Register() {
                   <a
                     target="_blank"
                     href={route('policy.show')}
-                    className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    className="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
                   >
                     Privacy Policy
                   </a>
@@ -136,7 +135,7 @@ export default function Register() {
         <div className="flex items-center justify-end mt-4">
           <Link
             href={route('login')}
-            className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
           >
             Already registered?
           </Link>
