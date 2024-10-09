@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ExternApiDetailController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -13,12 +14,59 @@ Route::get('/', function () {
     ]);
 });
 
+// Dashboard for all kind of users
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
-});
+])
+    ->get('/dashboard', fn() => Inertia::render('Dashboard'))
+    ->name('dashboard');
+
+
+// Freelancer's authenticated routes 
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+    // TODO add middleware to check if user is a freelancer
+])
+    ->prefix('/freelancer-space')
+    ->name('freelancer-space.')
+    ->group(function () {
+        // resource controller for `ExternApiDetail`
+        Route::resource('/external-api-details', ExternApiDetailController::class, [
+            "parameters" => [
+                'external-api-details' => 'externApiDetail',
+            ],
+            "names" => [
+                'index' => 'external-api-details.index',
+                'create' => 'external-api-details.create',
+                'store' => 'external-api-details.store',
+                'show' => 'external-api-details.show',
+                'edit' => 'external-api-details.edit',
+                'update' => 'external-api-details.update',
+                'destroy' => 'external-api-details.destroy',
+            ],
+        ]);
+    });
+
+// Client's authenticated routes
+Route::middleware([
+    'auth:sanctum',
+    'verified',
+    // TODO add middleware to check if user is a client
+])
+    ->prefix('/client-space')
+    ->name('client-space.')
+    ->group(function () {});
+
+// Admin's authenticated routes
+Route::middleware([
+    'auth:sanctum',
+    'verified',
+    // TODO add middleware to check if user is an admin
+])
+    ->prefix('/admin-space')
+    ->name('admin-space.')
+    ->group(function () {});
