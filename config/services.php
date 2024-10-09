@@ -36,9 +36,11 @@ return [
     ],
 
     "github" => [
+        // for app's agent
         "client_id" => env("GITHUB_CLIENT_ID"),
         "client_secret" => env("GITHUB_CLIENT_SECRET"),
         "redirect" => env("GITHUB_REDIRECT_URI"),
-        "github_api_url" => env("GITHUB_API_URL"),
+        
+        "endpoint" => env("GITHUB_API_URL"),
     ],
 ];
