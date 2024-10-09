@@ -10,7 +10,7 @@ class ExternApiDetail extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['expires_at', 'api_token', 'api_secret', 'api_name', 'label', 'description',];
+    protected $fillable = ['expires_at', 'api_token', 'api_secret', 'api_name', 'label', 'description', 'api_username',];
 
     protected $casts = [
         'expires_at' => 'datetime',
