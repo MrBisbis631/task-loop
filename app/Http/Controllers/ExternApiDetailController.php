@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ExternApiDetail;
+use App\Services\GithubService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -11,9 +12,9 @@ class ExternApiDetailController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(GithubService $githubService)
     {
-        return ExternApiDetail::all();
+        return $githubService->getRepositories()->toArray();
     }
 
     /**
