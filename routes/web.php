@@ -29,7 +29,7 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
-    // TODO add middleware to check if user is a freelancer
+    'role:super-admin|freelancer',
 ])
     ->prefix('/freelancer-space')
     ->name('freelancer-space.')
@@ -54,8 +54,9 @@ Route::middleware([
 // Client's authenticated routes
 Route::middleware([
     'auth:sanctum',
+    config('jetstream.auth_session'),
     'verified',
-    // TODO add middleware to check if user is a client
+    'role:super-admin|client',
 ])
     ->prefix('/client-space')
     ->name('client-space.')
@@ -64,8 +65,9 @@ Route::middleware([
 // Admin's authenticated routes
 Route::middleware([
     'auth:sanctum',
+    config('jetstream.auth_session'),
     'verified',
-    // TODO add middleware to check if user is an admin
+    'role:super-admin|admin',
 ])
     ->prefix('/admin-space')
     ->name('admin-space.')
