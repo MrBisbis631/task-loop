@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers\Providers;
+namespace App\Providers;
 
 use App\Services\GithubService;
 use Illuminate\Support\ServiceProvider;

@@ -4,6 +4,6 @@ return [
     App\Providers\AppServiceProvider::class,
     App\Providers\FortifyServiceProvider::class,
     App\Providers\JetstreamServiceProvider::class,
-    App\Providers\Providers\GithubServiceProvider::class,
+    App\Providers\GithubServiceProvider::class,
     Spatie\Permission\PermissionServiceProvider::class,
 ];
