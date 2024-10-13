@@ -3,18 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\ExternApiDetail;
+use App\Models\User;
 use App\Services\GithubService;
+use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Inertia\Inertia;
 
 class ExternApiDetailController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(GithubService $githubService)
+    public function index(#[CurrentUser] User $user)
     {
-        return $githubService->getRepositories()->toArray();
+        return Inertia::render("FreelancerSpace/ExternApiDetails/Index", [
+            "externApiDetails" => $user->externApiDetails()->paginate(10),
+        ]);
     }
 
     /**
