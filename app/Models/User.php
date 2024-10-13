@@ -15,7 +15,19 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Spatie\TypeScriptTransformer\Attributes\LiteralTypeScriptType;
+use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
+#[TypeScript]
+#[LiteralTypeScriptType([
+    'id' => 'string',
+    'name' => 'string',
+    'email' => 'string',
+    'password' => 'string',
+    'profile_photo_url' => 'string',
+    'email_verified_at' => 'string',
+    'externApiDetails' => "ExternApiDetail[]",
+])]
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, HasProfilePhoto, HasTeams, Notifiable, TwoFactorAuthenticatable, Emailable, Phoneable, HasRoles;
