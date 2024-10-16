@@ -19,15 +19,15 @@ use Spatie\TypeScriptTransformer\Attributes\TypeScript;
     'api_username' => 'string',
     'expires_at' => 'string',
     'created_at' => 'string',
-    'updated_at'=> 'string',
-    ])]
+    'updated_at' => 'string',
+])]
 class ExternApiDetail extends Model
 {
     use HasFactory;
 
     protected $fillable = ['expires_at', 'api_token', 'api_secret', 'api_name', 'label', 'description', 'api_username',];
 
-    protected $hidden = [ 'api_token', 'api_secret',];
+    protected $hidden = ['api_token', 'api_secret',];
 
     protected $casts = [
         'expires_at' => 'datetime',
