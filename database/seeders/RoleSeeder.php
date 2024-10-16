@@ -14,8 +14,10 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        collect(RoleEnum::all())
-            ->map(fn($role) => ['name' => $role->value])
-            ->each(fn($role) => Role::create($role));
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        
+        collect(RoleEnum::all())->each(fn (RoleEnum $role) => Role::create(['name' => $role->value]));
+
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
     }
 }
