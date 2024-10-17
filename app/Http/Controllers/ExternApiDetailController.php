@@ -18,7 +18,7 @@ class ExternApiDetailController extends Controller
     public function index(#[CurrentUser] User $user)
     {
         return Inertia::render("FreelancerSpace/ExternApiDetails/Index", [
-            "externApiDetails" => $user->externApiDetails()->paginate(10),
+            "externApiDetails" => $user->externApiDetails()->paginate(10)->onEachSide(1)->withQueryString(),
         ]);
     }
 
