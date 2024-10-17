@@ -2,6 +2,8 @@ import React from 'react'
 import useTypedPage from '@/Hooks/useTypedPage'
 import AppLayout from '@/Layouts/AppLayout'
 import ExternApiDetailsCard from './ExternApiDetailsCard'
+import PaginationLinks from '@/components/PaginationLinks'
+
 
 type Props = {
   externApiDetails: App.PaginatedResponse<App.Models.ExternApiDetail>
@@ -18,6 +20,7 @@ function Index() {
             <ExternApiDetailsCard key={externApiDetail.id} externApiDetail={externApiDetail} />
           ))}
         </div>
+        <PaginationLinks {...externApiDetails} resourceName="externApiDetails" />
       </div>
     </AppLayout>
   )
