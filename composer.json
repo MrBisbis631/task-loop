@@ -10,11 +10,13 @@
         "laravel/framework": "^11.9",
         "laravel/jetstream": "^5.2",
         "laravel/sanctum": "^4.0",
+        "laravel/scout": "^10.11",
         "laravel/tinker": "^2.9",
         "spatie/laravel-permission": "^6.9",
         "spatie/laravel-typescript-transformer": "^2.5",
         "spatie/typescript-transformer": "^2.4",
-        "tightenco/ziggy": "^2.0"
+        "tightenco/ziggy": "^2.0",
+        "typesense/typesense-php": "^4.9"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.14",
