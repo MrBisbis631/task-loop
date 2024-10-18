@@ -1,6 +1,9 @@
 <?php
 
 return [
+    // App staff configuration
+    'super_admin_email' => env('SUPER_ADMIN_EMAIL', 'default_super_admin@example.com'),
+    'super_admin_password' => env('SUPER_ADMIN_PASSWORD', 'default_password'),
 
     /*
     |--------------------------------------------------------------------------
