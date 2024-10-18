@@ -11,6 +11,7 @@ type Props = {
 
 function ExternApiDetailsCard({ externApiDetail }: Props) {
   const expiresAt = externApiDetail.expires_at ? new Date(externApiDetail.expires_at) : null
+  const hasExpired = !!expiresAt ? expiresAt < new Date() : false
 
   return (
     <Card.Card key={externApiDetail.id}>
@@ -18,17 +19,32 @@ function ExternApiDetailsCard({ externApiDetail }: Props) {
         <Button variant={'ghost'} size={'icon'} className='w-5 h-5 absolute right-2 top-2'>
           <Pencil2Icon />
         </Button>
-        {externApiDetail.expires_at ? <>
+
+        {hasExpired ? <>
           <Button variant={'secondary'} size={'icon'} className='w-5 h-5 absolute right-2 top-6'>
             <TrashIcon className='text-red-500' />
-          </Button></> : null}
+          </Button>
+        </> : null}
+
+        {hasExpired && expiresAt ? <>
+          <span className={twMerge([
+            "text-xs",
+            hasExpired ? "text-red-500" : "",
+          ])}>{hasExpired ? "Expired at" : "Expires at"} {format(expiresAt, "d/M/y")}</span>
+        </> : null}
+
         <div className="">
           <div className='flex items-baseline line-clamp-1'>
             <span className='font-semibold'>{externApiDetail.api_name}</span>
             <span>@</span>
             <span className='text-sm text-slate-600'>{externApiDetail.api_username}</span>
           </div>
-          <span className='text-xs text-slate-500'>Last update at {format(externApiDetail.created_at, "PPP")}</span>
+
+          {externApiDetail.label ? <>
+            <span className='text-xs text-slate-600'>{externApiDetail.label}</span>
+          </> : null}
+          <div className="text-xs text-slate-500">
+          </div>
         </div>
       </Card.CardHeader>
 
@@ -36,15 +52,6 @@ function ExternApiDetailsCard({ externApiDetail }: Props) {
         <Card.CardContent>
           <div className='text-sm text-slate-600 line-clamp-2'>{externApiDetail.description}</div>
         </Card.CardContent>
-      </> : null}
-
-      {expiresAt ? <>
-        <Card.CardFooter>
-          <span className={twMerge([
-            "text-xs",
-            expiresAt < new Date() ? "text-red-500" : ""
-          ])}>{expiresAt < new Date() ? "Expired at" : "Expires at"} {format(expiresAt, "PPP")}</span>
-        </Card.CardFooter>
       </> : null}
     </Card.Card>
   )

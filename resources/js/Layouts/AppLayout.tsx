@@ -51,8 +51,8 @@ export default function AppLayout({
 
       <Banner />
 
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
-        <nav className="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+      <div className="min-h-screen pt-20 dark:bg-gray-900">
+        <nav className="bg-white/30 dark:bg-slate-800/30 backdrop-blur-sm z-20 top-0 left-0 right-0 fixed">
           {/* <!-- Primary Navigation Menu --> */}
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between h-16">
@@ -408,7 +408,7 @@ export default function AppLayout({
         ) : null}
 
         {/* <!-- Page Content --> */}
-        <main>{children}</main>
+        <main className='container px-1 mx-auto'>{children}</main>
       </div>
     </div>
   );

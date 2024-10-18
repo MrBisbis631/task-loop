@@ -3,9 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\ExternApiDetail;
-use App\Models\User;
-use App\Services\GithubService;
-use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
@@ -15,10 +12,18 @@ class ExternApiDetailController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(#[CurrentUser] User $user)
+    public function index()
     {
+        $query = request("query", "");
+
         return Inertia::render("FreelancerSpace/ExternApiDetails/Index", [
-            "externApiDetails" => $user->externApiDetails()->paginate(10)->onEachSide(1)->withQueryString(),
+            "query" => $query,
+            "externApiDetails" => ExternApiDetail::search($query)
+                ->options(['query_by' => 'api_name, label, description, api_username',])
+                ->where('user_id', 1)
+                ->paginate(8)
+                ->onEachSide(1)
+                ->withQueryString(),
         ]);
     }
 

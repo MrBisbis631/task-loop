@@ -35,13 +35,15 @@
     "lucide-react": "^0.451.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hook-form": "^7.53.0",
     "tailwind-merge": "^2.5.3",
     "tailwindcss-animate": "^1.0.7",
+    "usehooks-ts": "^3.1.0",
     "ziggy-js": "^2.3.0"
   },
   "prettier": {
     "semi": true,
-    "singleQuote": true,
+    "singleQuote": false,
     "useTabs": false,
     "tabWidth": 2,
     "trailingComma": "all",
