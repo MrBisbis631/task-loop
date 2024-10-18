@@ -10,6 +10,11 @@ import { Button } from '@/components/ui/button'
 import { ListPlus, Lock } from 'lucide-react'
 import { useDebounceValue } from 'usehooks-ts'
 import { router } from '@inertiajs/react'
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+import { Textarea } from "@/components/ui/textarea"
+import { Ziggy } from '../../../ziggy'
 
 type Props = {
   externApiDetails: App.PaginatedResponse<App.Models.ExternApiDetail>,
@@ -45,6 +50,7 @@ function Index() {
               Manage your Extern API keys and details.
             </p>
           </div>
+          <CreateExternalApiDetailsForm />
           <label className="block mb-2 relative md:max-w-sm group">
             <MagnifyingGlassIcon className='absolute size-4 left-2 top-1/2 -translate-y-1/2 transform text-muted-foreground group-has-[:focus-visible]:text-slate-700' />
             <Input ref={searchRef} type='search' placeholder='Search' className='pl-7' value={search} onChange={e => setSearch(e.target.value)} />
@@ -86,6 +92,49 @@ function CreateExternalApiDetailsCard() {
       </CardFooter>
     </Card>
   );
+}
+
+const CreateExternalApiDetailsFormSchema = z.object({
+  api_name: z.string().min(1),
+  api_username: z.string().min(1),
+
+  expires_at: z.string().min(1).date().optional(),
+
+  // one of label or description is required 
+  label: z.string().min(1).max(255).optional(),
+  description: z.string().min(1).max(512).optional(),
+
+  api_secret: z.string().min(1).optional(),
+  api_token: z.string().min(1),
+}).refine(({ label, description }) => {
+  return !!label || !!description
+});
+
+function CreateExternalApiDetailsForm() {
+  const form = useForm<z.infer<typeof CreateExternalApiDetailsFormSchema>>({
+    resolver: zodResolver(CreateExternalApiDetailsFormSchema),
+  });
+
+  const submit = form.handleSubmit((data) => {
+    router.post(Ziggy?.routes['freelancer-space.external-api-details.store'].uri, data)
+  });
+
+  return (
+    <form onSubmit={submit} className='grid grid-cols-2 gap-2'>
+      <Input {...form.register('api_name')} placeholder='API Name' />
+      <Input {...form.register('api_username')} placeholder='API Username' />
+      <Input {...form.register('api_secret')} type='password' autoComplete='off' placeholder='API Secret' />
+      <Input {...form.register('api_token')} type='password' autoComplete='off' placeholder='API Token' />
+      <Input {...form.register('label')} placeholder='Label' />
+      <Input {...form.register('expires_at')} placeholder='Expires At' type='date' />
+      <Textarea {...form.register('description')} rows={3} className='col-span-2' placeholder='Description' />
+      <div className="col-span-2">
+        <Button type='submit'>Save</Button>
+      </div>
+    </form>
+
+
+  )
 }
 
 export default Index

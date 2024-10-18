@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreExternApiDetailRequest;
 use App\Models\ExternApiDetail;
+use App\Models\User;
+use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
@@ -38,9 +41,12 @@ class ExternApiDetailController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreExternApiDetailRequest $request, #[CurrentUser] User $user)
     {
-        //
+        $validated = $request->validated();
+        $user->externApiDetails()->create($validated);
+
+        return to_route('freelancer-space.extern-api-details.index');
     }
 
     /**
