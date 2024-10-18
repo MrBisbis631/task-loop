@@ -30,7 +30,7 @@ function Index() {
         only: ["externApiDetails", "query"],
         preserveState: true,
         replace: true,
-        data: { query: search },
+        data: { query: search, page: 1 },
       })
     }
   }, [debouncedSearch])
@@ -45,7 +45,7 @@ function Index() {
               Manage your Extern API keys and details.
             </p>
           </div>
-          <label className="block mb-2 relative max-w-sm group">
+          <label className="block mb-2 relative md:max-w-sm group">
             <MagnifyingGlassIcon className='absolute size-4 left-2 top-1/2 -translate-y-1/2 transform text-muted-foreground group-has-[:focus-visible]:text-slate-700' />
             <Input ref={searchRef} type='search' placeholder='Search' className='pl-7' value={search} onChange={e => setSearch(e.target.value)} />
           </label>
