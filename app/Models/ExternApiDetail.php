@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Laravel\Scout\Searchable;
 use Spatie\TypeScriptTransformer\Attributes\LiteralTypeScriptType;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
@@ -23,7 +24,7 @@ use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 ])]
 class ExternApiDetail extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
     protected $fillable = ['expires_at', 'api_token', 'api_secret', 'api_name', 'label', 'description', 'api_username',];
 
@@ -38,5 +39,24 @@ class ExternApiDetail extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array<string, mixed>
+     */
+    public function toSearchableArray()
+    {
+        return [
+            'id' => (string)$this->getKey(),
+            'user_id' => (string)$this->user_id,
+            'created_at' => $this->created_at?->timestamp ?? 0,
+            'expires_at' => $this->expires_at?->timestamp ?? 0,
+            'api_name' => $this->api_name,
+            'label' => $this->label ?? '',
+            'description' => $this->description ?? '',
+            'api_username' => $this->api_username,
+        ];
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\ExternApiDetail;
+
 return [
 
     /*
@@ -197,6 +199,50 @@ return [
             //         'query_by' => 'name'
             //     ],
             // ],
+            ExternApiDetail::class => [
+                'collection-schema' => [
+                    'fields' => [
+                        [
+                            'name' => 'id',
+                            'type' => 'string',
+                        ],
+                        [
+                            'name'=> 'user_id',
+                            'type' => 'string',
+                        ],
+                        [
+                            'name' => 'api_name',
+                            'type' => 'string',
+                        ],
+                        [
+                            'name' => 'label',
+                            'type' => 'string',
+                            'optional' => true,
+                        ],
+                        [
+                            'name' => 'description',
+                            'type' => 'string',
+                            'optional' => true,
+                        ],
+                        [
+                            'name' => 'api_username',
+                            'type' => 'string',
+                        ],
+                        [
+                            'name' => 'created_at',
+                            'type' => 'int64',
+                        ],
+                        [
+                            'name' => 'expires_at',
+                            'type' => 'int64',
+
+                        ]
+                    ],
+                    'default_sorting_field' => 'created_at',
+                    'typo_tokens_threshold' => 3,
+                ],
+            ]
+
         ],
     ],
 
