@@ -39,15 +39,6 @@ Route::middleware([
             "parameters" => [
                 'external-api-details' => 'externApiDetail',
             ],
-            "names" => [
-                'index' => 'external-api-details.index',
-                'create' => 'external-api-details.create',
-                'store' => 'external-api-details.store',
-                'show' => 'external-api-details.show',
-                'edit' => 'external-api-details.edit',
-                'update' => 'external-api-details.update',
-                'destroy' => 'external-api-details.destroy',
-            ],
         ]);
     });
 
