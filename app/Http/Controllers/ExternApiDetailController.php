@@ -46,7 +46,7 @@ class ExternApiDetailController extends Controller
         $validated = $request->validated();
         $user->externApiDetails()->create($validated);
 
-        return to_route('freelancer-space.extern-api-details.index');
+        return to_route('freelancer-space.external-api-details.index');
     }
 
     /**
