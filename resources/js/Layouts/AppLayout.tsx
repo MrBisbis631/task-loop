@@ -1,7 +1,7 @@
 import { router } from '@inertiajs/core';
 import { Link, Head } from '@inertiajs/react';
 import classNames from 'classnames';
-import React, { PropsWithChildren, useState } from 'react';
+import React, { lazy, PropsWithChildren, useState } from 'react';
 import useRoute from '@/Hooks/useRoute';
 import useTypedPage from '@/Hooks/useTypedPage';
 import ApplicationMark from '@/Components/ApplicationMark';
@@ -16,6 +16,11 @@ interface Props {
   title: string;
   renderHeader?(): JSX.Element;
 }
+
+// lazy load the toaster component
+const Toaster = lazy(() => import('@/components/ui/toaster')
+  .then(module => ({ default: module.Toaster }))
+)
 
 export default function AppLayout({
   title,
@@ -48,6 +53,9 @@ export default function AppLayout({
   return (
     <div>
       <Head title={title} />
+
+      {/* useToast to trigger and edit `@/component/toast` to costume */}
+      <Toaster />
 
       <Banner />
 
@@ -145,18 +153,18 @@ export default function AppLayout({
                                   <div className="flex items-center">
                                     {team.id ==
                                       page.props.auth.user?.current_team_id && (
-                                      <svg
-                                        className="mr-2 h-5 w-5 text-green-400"
-                                        fill="none"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                      >
-                                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                      </svg>
-                                    )}
+                                        <svg
+                                          className="mr-2 h-5 w-5 text-green-400"
+                                          fill="none"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          strokeWidth="2"
+                                          stroke="currentColor"
+                                          viewBox="0 0 24 24"
+                                        >
+                                          <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                      )}
                                     <div>{team.name}</div>
                                   </div>
                                 </DropdownLink>
@@ -374,18 +382,18 @@ export default function AppLayout({
                           <div className="flex items-center">
                             {team.id ==
                               page.props.auth.user?.current_team_id && (
-                              <svg
-                                className="mr-2 h-5 w-5 text-green-400"
-                                fill="none"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                              </svg>
-                            )}
+                                <svg
+                                  className="mr-2 h-5 w-5 text-green-400"
+                                  fill="none"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="2"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                              )}
                             <div>{team.name}</div>
                           </div>
                         </ResponsiveNavLink>
