@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreExternApiDetailRequest;
+use App\Http\Requests\UpdateExternApiDetailRequest;
 use App\Models\ExternApiDetail;
 use App\Models\User;
 use Illuminate\Container\Attributes\CurrentUser;
@@ -43,8 +44,7 @@ class ExternApiDetailController extends Controller
      */
     public function store(StoreExternApiDetailRequest $request, #[CurrentUser] User $user)
     {
-        $validated = $request->validated();
-        $user->externApiDetails()->create($validated);
+        $user->externApiDetails()->create($request->validated());
 
         return to_route('freelancer-space.external-api-details.index');
     }
@@ -64,17 +64,19 @@ class ExternApiDetailController extends Controller
      */
     public function edit(ExternApiDetail $externApiDetail, Request $request)
     {
-        Gate::authorize('edit', $externApiDetail);
-
-        return $externApiDetail->update($request->all());
+        //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ExternApiDetail $externApiDetail)
+    public function update(UpdateExternApiDetailRequest $request, ExternApiDetail $externApiDetail)
     {
-        //
+        Gate::authorize("update", $externApiDetail);
+
+        $externApiDetail->update($request->validated());
+
+        return to_route('freelancer-space.external-api-details.index');
     }
 
     /**
@@ -82,6 +84,10 @@ class ExternApiDetailController extends Controller
      */
     public function destroy(ExternApiDetail $externApiDetail)
     {
-        //
+        Gate::authorize("delete", $externApiDetail);
+
+        $externApiDetail->delete();
+
+        return to_route('freelancer-space.external-api-details.index');
     }
 }
