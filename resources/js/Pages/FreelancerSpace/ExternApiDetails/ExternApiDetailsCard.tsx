@@ -204,8 +204,6 @@ function UpdateForm({ externApiDetail }: UpdateFormProps) {
     setDialogOpen(false)
   }
 
-  console.log(externApiDetail.expires_at);
-
   return (
     <Dialog defaultOpen open={dialogOpen} onOpenChange={handleCloseDialog}>
       <DialogTrigger asChild>
