@@ -41,6 +41,12 @@ export default function CreateExternalApiDetailsCard() {
 
   const [dialogOpen, setDialogOpen] = useState<boolean>(false)
 
+  const form = useForm<z.infer<typeof CreateExternalApiDetailsFormSchema>>({
+    resolver: zodResolver(CreateExternalApiDetailsFormSchema),
+  });
+
+  const { isLoading, errors } = form.formState
+
   const toastError = () => {
     toast({
       title: 'Error creating API Key',
@@ -55,10 +61,6 @@ export default function CreateExternalApiDetailsCard() {
       description: 'The API key has been successfully created.',
     })
   }
-
-  const form = useForm<z.infer<typeof CreateExternalApiDetailsFormSchema>>({
-    resolver: zodResolver(CreateExternalApiDetailsFormSchema),
-  });
 
   const onSubmit = form.handleSubmit((data) => {
     router.post("", data, {
@@ -76,7 +78,12 @@ export default function CreateExternalApiDetailsCard() {
     })
   });
 
-  const { isLoading, errors } = form.formState
+  const handleCloseDialog = (close: boolean) => {
+    if (!close) {
+      form.clearErrors()
+    }
+    setDialogOpen(close)
+  }
 
   return (
     <Card className='bg-slate-50'>
@@ -87,7 +94,7 @@ export default function CreateExternalApiDetailsCard() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <Dialog defaultOpen open={dialogOpen} onOpenChange={setDialogOpen}>
+      <Dialog defaultOpen open={dialogOpen} onOpenChange={handleCloseDialog}>
           <DialogTrigger asChild>
             <Button>
               <ListPlus />
