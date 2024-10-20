@@ -143,6 +143,8 @@ const UpdateExternalApiDetailsFormSchema = z.object({
   // one of label or description is required 
   label: z.string().min(1).max(255).optional().nullable(),
   description: z.string().min(1).max(512).optional().nullable(),
+}).refine(({ label, description }) => {
+  return !!label || !!description
 })
 
 function UpdateForm({ externApiDetail }: UpdateFormProps) {
@@ -152,7 +154,10 @@ function UpdateForm({ externApiDetail }: UpdateFormProps) {
 
   const form = useForm<z.infer<typeof UpdateExternalApiDetailsFormSchema>>({
     resolver: zodResolver(UpdateExternalApiDetailsFormSchema),
-    defaultValues: externApiDetail,
+    defaultValues: {
+      ...externApiDetail,
+      expires_at: externApiDetail.expires_at ? format(externApiDetail.expires_at, 'yyyy-MM-dd') : null,
+    },
   });
 
   const { isLoading, isDirty, errors } = form.formState
@@ -186,7 +191,7 @@ function UpdateForm({ externApiDetail }: UpdateFormProps) {
         form.reset()
         setDialogOpen(false)
       },
-      onError: (errorBag) => {
+      onError: () => {
         toastError()
       }
     })
@@ -254,7 +259,7 @@ function UpdateForm({ externApiDetail }: UpdateFormProps) {
             </div>
           </div>
           <DialogFooter>
-          <Button onClick={handleCancelUpdate} type='button' variant={'destructive'}>Cancel</Button>
+            <Button onClick={handleCancelUpdate} type='button' variant={'destructive'}>Cancel</Button>
             <Button disabled={isLoading || !isDirty} type='submit'>Update key</Button>
           </DialogFooter>
         </form>
