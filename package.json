@@ -26,6 +26,7 @@
     "@headlessui/react": "^2.1.9",
     "@hookform/resolvers": "^3.9.0",
     "@inertiajs/react": "^1.2.0",
+    "@radix-ui/react-alert-dialog": "^1.1.2",
     "@radix-ui/react-dialog": "^1.1.2",
     "@radix-ui/react-icons": "^1.3.0",
     "@radix-ui/react-label": "^2.1.0",
