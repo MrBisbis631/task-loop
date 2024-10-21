@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ExternApiDetailController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -34,12 +35,13 @@ Route::middleware([
     ->prefix('/freelancer-space')
     ->name('freelancer-space.')
     ->group(function () {
-        // resource controller for `ExternApiDetail`
         Route::resource('/external-api-details', ExternApiDetailController::class, [
             "parameters" => [
                 'external-api-details' => 'externApiDetail',
             ],
         ]);
+
+        Route::resource('company', CompanyController::class);
     });
 
 // Client's authenticated routes
