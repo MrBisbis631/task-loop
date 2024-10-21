@@ -81,4 +81,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(ExternApiDetail::class);
     }
+
+    public function companies(): HasMany
+    {
+        return $this->hasMany(Company::class);
+    }
 }
