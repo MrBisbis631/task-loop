@@ -12,6 +12,8 @@
         "laravel/sanctum": "^4.0",
         "laravel/scout": "^10.11",
         "laravel/tinker": "^2.9",
+        "prinsfrank/standards": "^3.10",
+        "propaganistas/laravel-phone": "*",
         "spatie/laravel-permission": "^6.9",
         "spatie/laravel-typescript-transformer": "^2.5",
         "spatie/typescript-transformer": "^2.4",
