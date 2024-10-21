@@ -46,14 +46,5 @@
     "usehooks-ts": "^3.1.0",
     "ziggy-js": "^2.3.0",
     "zod": "^3.23.8"
-  },
-  "prettier": {
-    "semi": true,
-    "singleQuote": false,
-    "useTabs": false,
-    "tabWidth": 2,
-    "trailingComma": "all",
-    "printWidth": 80,
-    "arrowParens": "avoid"
   }
 }
