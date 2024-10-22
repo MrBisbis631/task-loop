@@ -22,8 +22,8 @@ class CompanyFactory extends Factory
     {
         return [
             'name' => $this->faker->company,
-            'phone_1' => $this->faker->phoneNumber,
-            'phone_2' => $this->faker->phoneNumber,
+            'phone_1' => $this->faker->e164PhoneNumber,
+            'phone_2' => $this->faker->e164PhoneNumber,
             'last_contacted_at' => $this->faker->dateTime,
             'activity_status' => $this->faker->randomElement(CompanyActivityStatusEnum::cases()),
             'company_type' => $this->faker->randomElement(CompanyTypeEnum::cases()),
