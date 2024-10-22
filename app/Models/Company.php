@@ -8,6 +8,7 @@ use App\Enums\PaymentMethodEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\TypeScriptTransformer\Attributes\LiteralTypeScriptType;
 
 #[LiteralTypeScriptType([
@@ -40,6 +41,8 @@ use Spatie\TypeScriptTransformer\Attributes\LiteralTypeScriptType;
     'billing_address' => 'string',
     'payment_terms' => 'string',
     'preferred_currency' => 'string',
+
+    'companyContacts' => 'CompanyContact[]',
 ])]
 class Company extends Model
 {
@@ -85,5 +88,10 @@ class Company extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function companyContacts(): HasMany
+    {
+        return $this->hasMany(CompanyContact::class);
     }
 }

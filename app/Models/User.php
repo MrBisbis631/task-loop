@@ -8,6 +8,7 @@ use App\Traits\Emailable;
 use App\Traits\Phoneable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -85,5 +86,10 @@ class User extends Authenticatable
     public function companies(): HasMany
     {
         return $this->hasMany(Company::class);
+    }
+
+    public function companyContacts(): HasManyThrough
+    {
+        return $this->hasManyThrough(CompanyContact::class, Company::class);
     }
 }
