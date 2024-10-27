@@ -46,9 +46,11 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
-        Gate::authorize("view", $company);
+        Gate::authorize('view', $company);
 
-        return response()->json($company->toArray());
+        return Inertia::render("FreelancerSpace/Company/Show", [
+            "company" => $company->load('companyContacts'),
+        ]);
     }
 
     /**
