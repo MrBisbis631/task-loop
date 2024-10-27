@@ -24,7 +24,11 @@ class UserSeeder extends Seeder
                 "password"=> config("app.super_admin_password"),
                 "password_confirmation"=> config("app.super_admin_password"),
                 'terms' => true,
-            ])->assignRole(RoleEnum::SUPER_ADMIN);
+
+                'role' => RoleEnum::SUPER_ADMIN->value,
+                'role_verified_at' => now(),
+                'role_verified_by' => null,
+            ]);
         } catch (\Throwable $th) {
             Log::warning("Failed to seed super admin user: {$th->getMessage()}");
         }

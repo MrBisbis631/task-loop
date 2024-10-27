@@ -22,6 +22,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Allow Super Admin to access all permissions
-        Gate::before(fn($user, $ability) => $user->hasRole(RoleEnum::SUPER_ADMIN));
+        Gate::before(
+            fn($user, $ability) => $user->role === RoleEnum::SUPER_ADMIN->value ? true : null
+        );
     }
 }

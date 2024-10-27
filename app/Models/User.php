@@ -4,9 +4,11 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Enums\RoleEnum;
 use App\Traits\Emailable;
 use App\Traits\Phoneable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -74,6 +76,8 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'role' => RoleEnum::class,
+            'role_verified_at' => 'datetime',
         ];
     }
 
@@ -90,5 +94,15 @@ class User extends Authenticatable
     public function companyContacts(): HasManyThrough
     {
         return $this->hasManyThrough(CompanyContact::class, Company::class);
+    }
+
+    public function roleVerifiedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'role_verified_by');
+    }
+
+    public function usersVerifiedRole(): HasMany
+    {
+        return $this->hasMany(User::class, 'role_verified_by');
     }
 }

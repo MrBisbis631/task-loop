@@ -31,7 +31,7 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
-    'role:super-admin|freelancer',
+    'verified_role:super-admin,freelancer',
 ])
     ->prefix('/freelancer-space')
     ->name('freelancer-space.')
@@ -46,6 +46,9 @@ Route::middleware([
         Route::resource('company.company-contact', CompanyContactController::class)
             ->parameter('company-contact', 'companyContact')
             ->only(['store', 'update', 'destroy']);
+
+
+        Route::get("/test", fn() => "Hello freelancer");
     });
 
 // Client's authenticated routes
@@ -53,19 +56,23 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
-    'role:super-admin|client',
+    'verified_role:super-admin,client',
 ])
     ->prefix('/client-space')
     ->name('client-space.')
-    ->group(function () {});
+    ->group(function () {
+        Route::get("/test", fn() => "Hello client");
+    });
 
 // Admin's authenticated routes
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
-    'role:super-admin|admin',
+    'verified_role:super-admin,admin',
 ])
     ->prefix('/admin-space')
     ->name('admin-space.')
-    ->group(function () {});
+    ->group(function () {
+        Route::get("/test", fn() => "Hello admin");
+    });
