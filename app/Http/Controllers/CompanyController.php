@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\CompanyActivityStatusEnum;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
@@ -18,8 +19,17 @@ class CompanyController extends Controller
      */
     public function index(Request $request, #[CurrentUser] User $user)
     {
+        $query = $request->get("query", "");
+        $onlyActive = $request->get("onlyActive") === "true"; 
+
         return Inertia::render("FreelancerSpace/Company/Index", [
-            "companies" => $user->companies()->get(),
+            "query" => $query,
+            "onlyActive" => $onlyActive,
+            "companies" =>  $user->companies()
+                ->when($onlyActive, fn($builder) => $builder->where('activity_status', CompanyActivityStatusEnum::ACTIVE->value))
+                ->when($query, fn($builder) => $builder->where('name', "LIKE", $query . "%"))
+                ->paginate(10)
+                ->withQueryString(),
         ]);
     }
 
