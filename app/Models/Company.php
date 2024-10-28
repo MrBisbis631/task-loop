@@ -5,45 +5,14 @@ namespace App\Models;
 use App\Enums\CompanyActivityStatusEnum;
 use App\Enums\CompanyTypeEnum;
 use App\Enums\PaymentMethodEnum;
+use App\Http\Resources\CompanyCollection;
+use Illuminate\Database\Eloquent\Attributes\CollectedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Spatie\TypeScriptTransformer\Attributes\LiteralTypeScriptType;
 
-#[LiteralTypeScriptType([
-    'id' => 'string',
-    'created_at' => 'string',
-    'updated_at' => 'string',
-    'name' => 'string',
-    'phone_1' => 'string',
-    'phone_2' => 'string',
-    'last_contacted_at' => 'string',
-    'activity_status' => 'string',
-    'company_type' => 'string',
-    'flags' => 'string',
-    'website_url' => 'string',
-    'linkedin_url' => 'string',
-    'facebook_url' => 'string',
-    'instagram_url' => 'string',
-    'country' => 'string',
-    'state' => 'string',
-    'zip_code' => 'string',
-    'address_1' => 'string',
-    'address_2' => 'string',
-    'tax_identification_number' => 'string',
-    'vat_number' => 'string',
-    'tax_region_country' => 'string',
-    'tax_filing_category' => 'string',
-    'tax_documentation_url' => 'string',
-    'preferred_payment_method' => 'string',
-    'bank_account_details' => 'string',
-    'billing_address' => 'string',
-    'payment_terms' => 'string',
-    'preferred_currency' => 'string',
-
-    'companyContacts' => 'CompanyContact[]',
-])]
+#[CollectedBy(CompanyCollection::class)]
 class Company extends Model
 {
     /** @use HasFactory<\Database\Factories\CompanyFactory> */
