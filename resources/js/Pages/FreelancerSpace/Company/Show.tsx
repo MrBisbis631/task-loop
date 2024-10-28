@@ -2,7 +2,7 @@ import AppLayout from "@/Layouts/AppLayout";
 import React from "react";
 
 type Props = {
-  company: App.Models.Company;
+  company: App.Http.Resources.CompanyResource;
 };
 
 function Show({ company }: Props) {

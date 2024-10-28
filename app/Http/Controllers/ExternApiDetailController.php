@@ -24,7 +24,7 @@ class ExternApiDetailController extends Controller
             "query" => $query,
             "externApiDetails" => ExternApiDetail::search($query)
                 ->options(['query_by' => 'api_name, label, description, api_username',])
-                ->where('user_id', 1)
+                ->where('user_id', auth()->id())
                 ->paginate(8)
                 ->onEachSide(1)
                 ->withQueryString(),
