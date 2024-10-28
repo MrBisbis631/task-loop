@@ -4,16 +4,18 @@ import {
   ChevronRightIcon,
   DotsHorizontalIcon,
 } from "@radix-ui/react-icons"
-
 import { cn } from "@/lib/utils"
 import { ButtonProps, buttonVariants } from "@/components/ui/button"
 import { Link, InertiaLinkProps } from "@inertiajs/react"
 
-const Pagination = ({ className, ...props }: React.ComponentProps<"nav">) => (
+type PaginationProps = React.ComponentProps<"nav">
+  & { compact?: boolean }
+
+const Pagination = ({ className, ...props }: PaginationProps) => (
   <nav
     role="navigation"
     aria-label="pagination"
-    className={cn("mx-auto flex w-full justify-center", className)}
+    className={cn(props.compact ? "flex justify-center" : "mx-auto flex w-full justify-center", className)}
     {...props}
   />
 )
@@ -41,23 +43,27 @@ PaginationItem.displayName = "PaginationItem"
 
 type PaginationLinkProps = {
   isActive?: boolean,
+  compact?: boolean,
 } & Omit<InertiaLinkProps, "size">
   & Pick<ButtonProps, "size">
 
 const PaginationLink = ({
   className,
   isActive,
-  size = "icon",
+  compact,
+  size,
   ...props
 }: PaginationLinkProps) => (
   <Link
     aria-current={isActive ? "page" : undefined}
     className={cn(
       buttonVariants({
-        variant: isActive ? "outline" : "ghost",
-        size,
+        variant: compact ?
+          "link" :
+          isActive ? "outline" : "ghost",
+        size: size ?? compact ? "sm" : "icon",
       }),
-      className
+      cn(isActive && compact ? "underline" : "", className)
     )}
     {...props}
   >
@@ -72,12 +78,12 @@ const PaginationPrevious = ({
 }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink
     aria-label="Go to previous page"
-    size="default"
-    className={cn("gap-1 pl-2.5", className)}
+    size={props.compact ? "sm" : "default"}
+    className={cn(props.compact ? "" : "gap-1 pl-2.5", className)}
     {...props}
   >
     <ChevronLeftIcon className="h-4 w-4" />
-    <span>Previous</span>
+    {props.compact ? null : <span>Previous</span>}
   </PaginationLink>
 )
 PaginationPrevious.displayName = "PaginationPrevious"
@@ -88,11 +94,11 @@ const PaginationNext = ({
 }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink
     aria-label="Go to next page"
-    size="default"
-    className={cn("gap-1 pr-2.5", className)}
+    size={props.compact ? "sm" : "default"}
+    className={cn(props.compact ? "" : "gap-1 pl-2.5", className)}
     {...props}
   >
-    <span>Next</span>
+    {props.compact ? null : <span>Next</span>}
     <ChevronRightIcon className="h-4 w-4" />
   </PaginationLink>
 )

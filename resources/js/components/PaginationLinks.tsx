@@ -3,6 +3,7 @@ import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, Pagi
 
 type Props = {
   resourceName: string;
+  compact?: boolean;
 } & App.PaginatedResponse<unknown> &
   React.ComponentProps<"nav">;
 
@@ -16,7 +17,7 @@ function PaginationLinks({ resourceName, prev_page_url, next_page_url, links, to
       <PaginationContent>
         {/* prev page */}
         <PaginationItem>
-          <PaginationPrevious href={prev_page_url || ""}>Previous</PaginationPrevious>
+          <PaginationPrevious href={prev_page_url || ""} compact={props.compact} />
         </PaginationItem>
 
         {/* links */}
@@ -27,7 +28,12 @@ function PaginationLinks({ resourceName, prev_page_url, next_page_url, links, to
             </PaginationItem>
           ) : (
             <PaginationItem key={link.url}>
-              <PaginationLink href={link.url || ""} only={[resourceName]} isActive={link.active}>
+              <PaginationLink 
+                href={link.url || ""} 
+                only={[resourceName]} 
+                isActive={link.active}
+                compact={props.compact}
+              >
                 {link.label}
               </PaginationLink>
             </PaginationItem>
@@ -36,7 +42,7 @@ function PaginationLinks({ resourceName, prev_page_url, next_page_url, links, to
 
         {/* next page */}
         <PaginationItem>
-          <PaginationNext href={next_page_url || ""}>Next</PaginationNext>
+          <PaginationNext href={next_page_url || ""} compact={props.compact} />
         </PaginationItem>
       </PaginationContent>
     </Pagination>
