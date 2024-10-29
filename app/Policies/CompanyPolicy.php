@@ -21,7 +21,7 @@ class CompanyPolicy
      */
     public function view(User $user, Company $company): Response
     {
-        return $company->user()?->is($user) ?
+        return $company?->user()?->is($user) ?
             Response::allow() :
             Response::denyAsNotFound();
     }
