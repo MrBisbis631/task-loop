@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\CompanyActivityStatusEnum;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
+use App\Http\Resources\CompanyResource;
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Container\Attributes\CurrentUser;
@@ -20,16 +21,18 @@ class CompanyController extends Controller
     public function index(Request $request, #[CurrentUser] User $user)
     {
         $query = $request->get("query", "");
-        $onlyActive = $request->get("onlyActive") === "true"; 
+        $onlyActive = $request->get("onlyActive") === "true";
 
         return Inertia::render("FreelancerSpace/Company/Index", [
             "query" => $query,
             "onlyActive" => $onlyActive,
-            "companies" =>  $user->companies()
-                ->when($onlyActive, fn($builder) => $builder->where('activity_status', CompanyActivityStatusEnum::ACTIVE->value))
-                ->when($query, fn($builder) => $builder->where('name', "LIKE", $query . "%"))
-                ->paginate(10)
-                ->withQueryString(),
+            "companies" =>  CompanyResource::collection(
+                $user->companies()
+                    ->when($onlyActive, fn($builder) => $builder->where('activity_status', CompanyActivityStatusEnum::ACTIVE->value))
+                    ->when($query, fn($builder) => $builder->where('name', "LIKE", $query . "%"))
+                    ->paginate(10)
+                    ->withQueryString()
+            ),
         ]);
     }
 
@@ -59,7 +62,8 @@ class CompanyController extends Controller
         Gate::authorize('view', $company);
 
         return Inertia::render("FreelancerSpace/Company/Show", [
-            "company" => $company->load('companyContacts'),
+            "company" =>  CompanyResource::make($company->load('companyContacts')),
+            "company" =>  $company->load('companyContacts'),
         ]);
     }
 

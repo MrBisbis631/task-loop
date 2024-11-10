@@ -5,14 +5,11 @@ namespace App\Models;
 use App\Enums\CompanyActivityStatusEnum;
 use App\Enums\CompanyTypeEnum;
 use App\Enums\PaymentMethodEnum;
-use App\Http\Resources\CompanyCollection;
-use Illuminate\Database\Eloquent\Attributes\CollectedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[CollectedBy(CompanyCollection::class)]
 class Company extends Model
 {
     /** @use HasFactory<\Database\Factories\CompanyFactory> */
