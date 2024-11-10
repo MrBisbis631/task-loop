@@ -10,7 +10,7 @@ import { InstagramLogoIcon, LinkedInLogoIcon, GlobeIcon } from "@radix-ui/react-
 import { cn } from "@/lib/utils";
 import Flag from 'react-flagkit';
 
-type Props = App.PaginatedResponse<App.Http.Resources.CompanyResource> & React.ComponentProps<typeof PaginationLinks>;
+type Props = App.ResourceCollection<App.Http.Resources.CompanyResource> & React.ComponentProps<typeof PaginationLinks>;
 
 function CompaniesTable(props: Props) {
   const table = useReactTable<App.Http.Resources.CompanyResource>({

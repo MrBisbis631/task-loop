@@ -4,11 +4,11 @@ import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, Pagi
 type Props = {
   resourceName: string;
   compact?: boolean;
-} & App.PaginatedResponse<unknown> &
-  React.ComponentProps<"nav">;
+} & Pick<App.ResourceCollection, "meta" | "links">
+  & React.ComponentProps<"nav">;
 
-function PaginationLinks({ resourceName, prev_page_url, next_page_url, links, total, per_page, ...props }: Props) {
-  if (total <= per_page) {
+function PaginationLinks({ resourceName, meta, links, ...props }: Props) {
+  if (!meta || meta.total <= meta.per_page) {
     return null;
   }
 
@@ -17,20 +17,20 @@ function PaginationLinks({ resourceName, prev_page_url, next_page_url, links, to
       <PaginationContent>
         {/* prev page */}
         <PaginationItem>
-          <PaginationPrevious href={prev_page_url || ""} compact={props.compact} />
+          <PaginationPrevious href={links?.prev || ""} compact={props.compact} />
         </PaginationItem>
 
         {/* links */}
-        {links.slice(1, -1).map(link =>
+        {meta.links.slice(1, -1).map(link =>
           link.label === "..." ? (
             <PaginationItem key={link.url}>
               <PaginationEllipsis />
             </PaginationItem>
           ) : (
             <PaginationItem key={link.url}>
-              <PaginationLink 
-                href={link.url || ""} 
-                only={[resourceName]} 
+              <PaginationLink
+                href={link.url || ""}
+                only={[resourceName]}
                 isActive={link.active}
                 compact={props.compact}
               >
@@ -42,7 +42,7 @@ function PaginationLinks({ resourceName, prev_page_url, next_page_url, links, to
 
         {/* next page */}
         <PaginationItem>
-          <PaginationNext href={next_page_url || ""} compact={props.compact} />
+          <PaginationNext href={links?.last || ""} compact={props.compact} />
         </PaginationItem>
       </PaginationContent>
     </Pagination>

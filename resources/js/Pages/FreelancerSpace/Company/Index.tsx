@@ -10,12 +10,14 @@ import Checkbox from "@/Components/Checkbox";
 import { Label } from "@/components/ui/label";
 
 type Props = {
-  companies: App.PaginatedResponse<App.Http.Resources.CompanyResource>;
+  companies: App.ResourceCollection<App.Http.Resources.CompanyResource>;
   query?: string;
   onlyActive?: boolean;
 };
 
 export default function Company({ companies, query, onlyActive }: Props) {
+    console.log(companies)
+
   const [search, setSearch] = useState(query);
   const [onlyActiveCheckbox, setOnlyActiveCheckbox] = useState(onlyActive ?? false);
 
