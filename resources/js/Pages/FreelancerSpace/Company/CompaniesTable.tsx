@@ -54,7 +54,7 @@ function CompaniesTable(props: Props) {
           <TableCell colSpan={columns.length}>
             <div className="flex items-baseline justify-between">
               <span>
-                {props.data.length} of {props.total} row(s) selected.
+                {props.data.length} of {props.meta?.total} row(s) selected.
               </span>
               <PaginationLinks {...props} compact />
             </div>
