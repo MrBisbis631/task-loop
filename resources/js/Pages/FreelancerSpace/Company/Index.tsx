@@ -1,4 +1,3 @@
-import PageTitle from "@/components/PageTitle";
 import AppLayout from "@/Layouts/AppLayout";
 import React, { useEffect, useState } from "react";
 import CompaniesTable from "./CompaniesTable";
@@ -16,8 +15,6 @@ type Props = {
 };
 
 export default function Company({ companies, query, onlyActive }: Props) {
-    console.log(companies)
-
   const [search, setSearch] = useState(query);
   const [onlyActiveCheckbox, setOnlyActiveCheckbox] = useState(onlyActive ?? false);
 
@@ -34,9 +31,8 @@ export default function Company({ companies, query, onlyActive }: Props) {
   }, [debouncedSearch, onlyActiveCheckbox]);
 
   return (
-    <AppLayout title="Company">
+    <AppLayout headTitle="Companies" pageTitle="Companies" pageDescription="Manage your companies details." route={{ name: "companies" }}>
       <div>
-        <PageTitle title="Company" description="Manage your company details." />
         <div className="">
           <label className="block mb-2 relative md:max-w-sm group">
             <MagnifyingGlassIcon className="absolute size-4 left-2 top-1/2 -translate-y-1/2 transform text-muted-foreground group-has-[:focus-visible]:text-slate-700" />
@@ -44,7 +40,9 @@ export default function Company({ companies, query, onlyActive }: Props) {
           </label>
           <div className="flex gap-2 items-center ">
             <Checkbox id="onlyActive" name="onlyActive" checked={onlyActiveCheckbox} onChange={e => setOnlyActiveCheckbox(e.target.checked)} />
-            <Label className="text-muted-foreground" htmlFor="onlyActive">Show only active companies.</Label>
+            <Label className="text-muted-foreground" htmlFor="onlyActive">
+              Show only active companies.
+            </Label>
           </div>
         </div>
         <CompaniesTable {...companies} resourceName="companies" />
