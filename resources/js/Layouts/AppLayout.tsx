@@ -8,14 +8,16 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/s
 import PageTitle, { type Props as PageTitleProps } from "@/components/PageTitle";
 import { useRoute } from "ziggy-js";
 
+type RouteDetails = {
+  name: string;
+  url: string;
+};
+
 type Props = {
   headTitle?: string;
   renderHeader?(): JSX.Element;
-  route: {
-    name: string;
-    uri?: string;
-  };
-  subRoute?: string;
+  route: RouteDetails;
+  subRoute?: RouteDetails;
 } & PageTitleProps;
 
 // lazy load the toaster component
@@ -44,14 +46,20 @@ export default function AppLayout({ headTitle, children, pageTitle, pageDescript
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
                   <BreadcrumbLink asChild>
-                    <Link href={route.uri ?? navigator(navigator().current() || "") ?? ""} className="capitalize">{route.name}</Link>
+                    <Link href={route.url} className="capitalize">
+                      {route.name}
+                    </Link>
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 {subRoute ? (
                   <>
                     <BreadcrumbSeparator className="hidden md:block" />
                     <BreadcrumbItem>
-                      <BreadcrumbPage>{subRoute}</BreadcrumbPage>
+                      <BreadcrumbPage>
+                        <Link href={subRoute.url} className="capitalize">
+                          {subRoute.name}
+                        </Link>
+                      </BreadcrumbPage>
                     </BreadcrumbItem>
                   </>
                 ) : null}
