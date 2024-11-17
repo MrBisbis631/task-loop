@@ -7,6 +7,7 @@ import { useDebounceValue } from "usehooks-ts";
 import { router } from "@inertiajs/react";
 import Checkbox from "@/Components/Checkbox";
 import { Label } from "@/components/ui/label";
+import useRoute, { RouteContext } from "@/Hooks/useRoute";
 
 type Props = {
   companies: App.ResourceCollection<App.Http.Resources.CompanyResource>;
@@ -15,6 +16,8 @@ type Props = {
 };
 
 export default function Company({ companies, query, onlyActive }: Props) {
+  const route = useRoute(); 
+
   const [search, setSearch] = useState(query);
   const [onlyActiveCheckbox, setOnlyActiveCheckbox] = useState(onlyActive ?? false);
 
@@ -31,7 +34,7 @@ export default function Company({ companies, query, onlyActive }: Props) {
   }, [debouncedSearch, onlyActiveCheckbox]);
 
   return (
-    <AppLayout headTitle="Companies" pageTitle="Companies" pageDescription="Manage your companies details." route={{ name: "companies" }}>
+    <AppLayout headTitle="Companies" pageTitle="Companies" pageDescription="Manage your companies details." route={{ name: "companies", url: route("freelancer-space.company.index") }}>
       <div>
         <div className="">
           <label className="block mb-2 relative md:max-w-sm group">

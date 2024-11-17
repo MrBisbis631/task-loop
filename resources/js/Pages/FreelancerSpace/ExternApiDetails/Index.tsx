@@ -9,13 +9,15 @@ import { useDebounceValue } from "usehooks-ts";
 import { router } from "@inertiajs/react";
 import CreateExternalApiDetailsCard from "./CreateExternApiDetailsCard";
 import PageTitle from "@/components/PageTitle";
+import { useRoute } from "ziggy-js";
 
 type Props = {
-  externApiDetails: App.PaginatedResponse<App.Models.ExternApiDetail>;
+  externApiDetails: App.ResourceCollection<App.Models.ExternApiDetail>;
   query: string | null;
 };
 
 function Index() {
+  const route = useRoute();
   const {
     props: { externApiDetails, query },
     url,
@@ -37,11 +39,16 @@ function Index() {
     }
   }, [debouncedSearch]);
 
+  const appLayoutDetails = {
+    pageTitle: "Extern API Details",
+    headTitle: "Extern API Details",
+    pageDescription: "Manage your external API details.",
+    route: { name: "Extern API Details", url: route("freelancer-space.external-api-details.index") },
+  };
   return (
-    <AppLayout title="Extern API Details">
+    <AppLayout {...appLayoutDetails}>
       <div className="flex flex-col justify-between gap-2 p-2 min-h-[calc(100vh-80px)]">
         <div className="">
-          <PageTitle title="Extern API Details" description="Manage your extern API details." />
           <label className="block mb-2 relative md:max-w-sm group">
             <MagnifyingGlassIcon className="absolute size-4 left-2 top-1/2 -translate-y-1/2 transform text-muted-foreground group-has-[:focus-visible]:text-slate-700" />
             <Input ref={searchRef} type="search" placeholder="Search" className="pl-7" value={search} onChange={e => setSearch(e.target.value)} />

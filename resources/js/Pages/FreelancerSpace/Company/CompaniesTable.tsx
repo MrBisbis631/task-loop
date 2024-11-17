@@ -8,11 +8,12 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { InstagramLogoIcon, LinkedInLogoIcon, GlobeIcon } from "@radix-ui/react-icons";
 import { cn } from "@/lib/utils";
-import Flag from 'react-flagkit';
+import Flag from "react-flagkit";
+import useRoute from "@/Hooks/useRoute";
 
 type Props = App.ResourceCollection<App.Http.Resources.CompanyResource> & React.ComponentProps<typeof PaginationLinks>;
 
-function CompaniesTable(props: Props) {
+export default function CompaniesTable(props: Props) {
   const table = useReactTable<App.Http.Resources.CompanyResource>({
     data: props.data,
     columns,
@@ -71,11 +72,14 @@ const columns: ColumnDef<App.Http.Resources.CompanyResource>[] = [
     accessorKey: "name",
     header: () => <span className="ml-4">Name</span>,
     accessorFn: col => col.name,
-    cell: ({ row }) => (
-      <Button variant={"link"} className="block truncate max-w-56">
-        <Link href={`/${Ziggy.routes["freelancer-space.company.index"].uri}/${row.original.id}`}>{row.original.name}</Link>
-      </Button>
-    ),
+    cell: ({ row }) => {
+      const route = useRoute();
+      return (
+        <Button variant={"link"} className="block truncate max-w-56">
+          <Link href={route("freelancer-space.company.show", [row.original.id])}>{row.original.name}</Link>
+        </Button>
+      );
+    },
   },
   {
     id: "phone",
@@ -102,48 +106,62 @@ const columns: ColumnDef<App.Http.Resources.CompanyResource>[] = [
   {
     id: "links",
     header: () => <span className="ml-2">Links</span>,
-    cell: ({ row }) => (
-      <div className="">
-        {row.original.website_url && (
-          <Button variant={"ghost"} className="size-6">
-            <a href={row.original.website_url}>
-              <GlobeIcon className="inline-block w-4 h-4" />
-            </a>
-          </Button>
-        )}
-        {row.original.instagram_url && (
-          <Button variant={"ghost"} className="size-6">
-            <a href={row.original.instagram_url}>
-              <InstagramLogoIcon className="inline-block w-4 h-4" />
-            </a>
-          </Button>
-        )}
-        {row.original.linkedin_url && (
-          <Button variant={"ghost"} className="size-6">
-            <a href={row.original.linkedin_url}>
-              <LinkedInLogoIcon className="inline-block w-4 h-4" />
-            </a>
-          </Button>
-        )}
-      </div>
-    ),
+    cell: ({ row }) => <CompanyLinks company={row.original} />,
   },
   {
     id: "tags",
     header: "Tags",
-    cell: ({ row }) => (
-      <div className="flex flex-wrap gap-1">
-        {row.original.activity_status && <Badge className={cn(row.original.activity_status === "active" ? "bg-green-500" : "bg-red-500")}>{row.original.activity_status}</Badge>}
-        {row.original.payment_terms && <Badge variant={"secondary"}>{row.original.company_term_readable}</Badge>}
-        {row.original.country && (
-          <Badge variant={"outline"} className="space-x-1">
-            <span>{row.original.country}</span>
-            <Flag country={row.original.country} size={14} />
-          </Badge>
-        )}
-      </div>
-    ),
+    cell: ({ row }) => <CompanyTags company={row.original} />,
   },
 ];
 
-export default CompaniesTable;
+type CompanyTagsProps = {
+  company: App.Http.Resources.CompanyResource;
+};
+
+export function CompanyTags({ company }: CompanyTagsProps) {
+  return (
+    <div className="flex flex-wrap gap-1">
+      {company.activity_status && <Badge className={cn(company.activity_status === "active" ? "bg-green-500" : "bg-red-500")}>{company.activity_status}</Badge>}
+      {company.company_term_readable && <Badge variant={"secondary"}>{company.company_term_readable}</Badge>}
+      {company.country && (
+        <Badge variant={"outline"} className="space-x-1">
+          <span>{company.country}</span>
+          <Flag country={company.country} size={14} />
+        </Badge>
+      )}
+    </div>
+  );
+}
+
+type CompanyLinksProps = {
+  company: App.Http.Resources.CompanyResource;
+};
+
+export function CompanyLinks({ company }: CompanyLinksProps) {
+  return (
+    <div className="">
+      {company.website_url && (
+        <Button variant={"ghost"} className="size-6">
+          <a href={company.website_url}>
+            <GlobeIcon className="inline-block w-4 h-4" />
+          </a>
+        </Button>
+      )}
+      {company.instagram_url && (
+        <Button variant={"ghost"} className="size-6">
+          <a href={company.instagram_url}>
+            <InstagramLogoIcon className="inline-block w-4 h-4" />
+          </a>
+        </Button>
+      )}
+      {company.linkedin_url && (
+        <Button variant={"ghost"} className="size-6">
+          <a href={company.linkedin_url}>
+            <LinkedInLogoIcon className="inline-block w-4 h-4" />
+          </a>
+        </Button>
+      )}
+    </div>
+  );
+}
