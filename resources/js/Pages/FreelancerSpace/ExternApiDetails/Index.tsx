@@ -8,11 +8,10 @@ import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { useDebounceValue } from "usehooks-ts";
 import { router } from "@inertiajs/react";
 import CreateExternalApiDetailsCard from "./CreateExternApiDetailsCard";
-import PageTitle from "@/components/PageTitle";
 import { useRoute } from "ziggy-js";
 
 type Props = {
-  externApiDetails: App.ResourceCollection<App.Models.ExternApiDetail>;
+  externApiDetails: App.ResourceCollection<App.Http.Resources.ExternApiDetailResource>;
   query: string | null;
 };
 

@@ -5,7 +5,7 @@ import { format } from "date-fns";
 import { twMerge } from "tailwind-merge";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { route } from "ziggy-js";
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { router } from "@inertiajs/react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,14 +15,55 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { ClipboardCopyIcon } from "@radix-ui/react-icons";
+import { Separator } from "@/components/ui/separator";
 
 type Props = {
-  externApiDetail: App.Models.ExternApiDetail;
+  externApiDetail: App.Http.Resources.ExternApiDetailResource;
 };
 
 function ExternApiDetailsCard({ externApiDetail }: Props) {
+  const { toast } = useToast();
+
   const expiresAt = externApiDetail.expires_at ? new Date(externApiDetail.expires_at) : null;
   const hasExpired = !!expiresAt ? expiresAt < new Date() : false;
+
+  const getSecrets = async () => {
+    return (await fetch(route("freelancer-space.external-api-details.show", [externApiDetail.id])).then(response => response.json())) as App.Http.Resources.SecretExternApiDetailResource;
+  };
+
+  const copyApiTokenToClipboard = async () => {
+    const secret = await getSecrets();
+
+    if (secret) {
+      await navigator.clipboard.writeText(secret.api_token);
+
+      toast({
+        title: "API Token copied",
+      });
+    } else {
+      toast({
+        title: "Failed to copy API Token",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const copyApiSecretToClipboard = async () => {
+    const secret = await getSecrets();
+
+    if (secret) {
+      await navigator.clipboard.writeText(secret.api_secret);
+      toast({
+        title: "API Secret copied",
+      });
+    } else {
+      toast({
+        title: "Failed to copy API Secret",
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <Card key={externApiDetail.id}>
@@ -65,6 +106,30 @@ function ExternApiDetailsCard({ externApiDetail }: Props) {
             <div className="text-sm text-slate-600 line-clamp-2">{externApiDetail.description}</div>
           </CardContent>
         </>
+      ) : null}
+
+      {externApiDetail.has_api_secret || externApiDetail.has_api_token ? (
+        <CardFooter className="gap-2 container">
+          {externApiDetail.has_api_token ? (
+            <div className="flex items-center gap-1.5">
+              <Button type="button" className="size-6" variant={"outline"} size={"icon"} onClick={copyApiTokenToClipboard}>
+                <ClipboardCopyIcon />
+              </Button>
+              <span className="text-muted-foreground text-xs">Copy API Token</span>
+            </div>
+          ) : null}
+          {externApiDetail.has_api_token ? (
+            <>
+              <Separator orientation="vertical" className="h-5" />
+              <div className="flex items-center gap-1.5">
+                <Button type="button" className="size-6" variant={"outline"} size={"icon"} onClick={copyApiSecretToClipboard}>
+                  <ClipboardCopyIcon />
+                </Button>
+                <span className="text-muted-foreground text-xs">Copy API Secret</span>
+              </div>
+            </>
+          ) : null}
+        </CardFooter>
       ) : null}
     </Card>
   );
@@ -116,7 +181,7 @@ function ConfirmDelete({ id }: ConfirmDeleteProps) {
 }
 
 type UpdateFormProps = {
-  externApiDetail: App.Models.ExternApiDetail;
+  externApiDetail: App.Http.Resources.ExternApiDetailResource;
 };
 
 const UpdateExternalApiDetailsFormSchema = z
