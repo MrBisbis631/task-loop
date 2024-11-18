@@ -5,6 +5,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ExternApiDetailController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Inertia\EncryptHistoryMiddleware;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -37,8 +38,9 @@ Route::middleware([
     ->name('freelancer-space.')
     ->group(function () {
         Route::resource('external-api-details', ExternApiDetailController::class)
+            ->middleware([EncryptHistoryMiddleware::class])
             ->parameter('external-api-details', 'externApiDetail')
-            ->only(['index', 'store', 'update', 'destroy']);
+            ->only(['index', 'store', 'update', 'destroy', 'show']);
 
         Route::resource('company', CompanyController::class)
             ->only(['index', 'show', 'store', 'update', 'destroy']);

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreExternApiDetailRequest;
 use App\Http\Requests\UpdateExternApiDetailRequest;
+use App\Http\Resources\ExternApiDetailResource;
+use App\Http\Resources\SecretExternApiDetailResource;
 use App\Models\ExternApiDetail;
 use App\Models\User;
 use Illuminate\Container\Attributes\CurrentUser;
@@ -22,12 +24,14 @@ class ExternApiDetailController extends Controller
 
         return Inertia::render("FreelancerSpace/ExternApiDetails/Index", [
             "query" => $query,
-            "externApiDetails" => ExternApiDetail::search($query)
-                ->options(['query_by' => 'api_name, label, description, api_username',])
-                ->where('user_id', auth()->id())
-                ->paginate(8)
-                ->onEachSide(1)
-                ->withQueryString(),
+            "externApiDetails" => ExternApiDetailResource::collection(
+                ExternApiDetail::search($query)
+                    ->options(['query_by' => 'api_name, label, description, api_username',])
+                    ->where('user_id', auth()->id())
+                    ->paginate(8)
+                    ->onEachSide(1)
+                    ->withQueryString(),
+            ),
         ]);
     }
 
@@ -54,9 +58,9 @@ class ExternApiDetailController extends Controller
      */
     public function show(ExternApiDetail $externApiDetail)
     {
-        Gate::authorize('view', $externApiDetail);
+        Gate::authorize('view-secret', $externApiDetail);
 
-        return $externApiDetail->toArray();
+        return SecretExternApiDetailResource::make($externApiDetail);
     }
 
     /**

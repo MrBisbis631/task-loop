@@ -40,7 +40,7 @@ class ExternApiDetailPolicy
      */
     public function update(User $user, ExternApiDetail $externApiDetail): bool
     {
-        return $user->id === $externApiDetail->user_id;
+        return $externApiDetail->user()->is($user);
     }
 
     /**
@@ -48,7 +48,7 @@ class ExternApiDetailPolicy
      */
     public function delete(User $user, ExternApiDetail $externApiDetail): bool
     {
-        return $user->id === $externApiDetail->user_id;
+        return $externApiDetail->user()->is($user);
     }
 
     /**
@@ -56,7 +56,7 @@ class ExternApiDetailPolicy
      */
     public function restore(User $user, ExternApiDetail $externApiDetail): bool
     {
-        return $user->id === $externApiDetail->user_id;
+        return $externApiDetail->user()->is($user);
     }
 
     /**
@@ -64,6 +64,12 @@ class ExternApiDetailPolicy
      */
     public function forceDelete(User $user, ExternApiDetail $externApiDetail): bool
     {
-        return $user->id === $externApiDetail->user_id;
+        return $externApiDetail->user()->is($user);
+    }
+
+    // Enable the user to view the secret of the API
+    public function viewSecret(User $user, ExternApiDetail $externApiDetail): bool
+    {
+        return $externApiDetail->user()->is($user);
     }
 }
