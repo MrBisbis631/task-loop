@@ -15,5 +15,5 @@ export type SecretExternApiDetailResource = {api_secret:string;api_token:string;
 declare namespace App.Models {
 export type CompanyContact = {first_name:string;last_name:string;email:string;phone:string;title:string;job_title:string;preferred_contact_method:string;last_contacted_at:string;notes:string;};
 export type ExternApiDetail = {id:string;api_token:string;api_secret:string;api_name:string;label:string;description:string;api_username:string;expires_at:string;created_at:string;updated_at:string;};
-export type User = {id:string;name:string;email:string;password:string;profile_photo_url:string;email_verified_at:string;externApiDetails:ExternApiDetail[];};
+export type User = {id:string;name:string;email:string;role:RoleEnum;password:string;profile_photo_url:string;email_verified_at:string;externApiDetails:ExternApiDetail[];};
 }

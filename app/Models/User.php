@@ -25,6 +25,7 @@ use Spatie\TypeScriptTransformer\Attributes\TypeScript;
     'id' => 'string',
     'name' => 'string',
     'email' => 'string',
+    'role' => 'RoleEnum',
     'password' => 'string',
     'profile_photo_url' => 'string',
     'email_verified_at' => 'string',
