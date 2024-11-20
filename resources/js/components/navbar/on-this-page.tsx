@@ -16,7 +16,7 @@ export default function OnThisPage({ items }: Props) {
   }
 
   return (
-    <SidebarGroup>
+    <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>On this page</SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu>
