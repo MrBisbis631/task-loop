@@ -1,4 +1,3 @@
-import AppLayout from "@/Layouts/AppLayout";
 import React, { useEffect, useState } from "react";
 import CompaniesTable from "./CompaniesTable";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
@@ -7,7 +6,6 @@ import { useDebounceValue } from "usehooks-ts";
 import { router } from "@inertiajs/react";
 import Checkbox from "@/Components/Checkbox";
 import { Label } from "@/components/ui/label";
-import useRoute, { RouteContext } from "@/Hooks/useRoute";
 
 type Props = {
   companies: App.ResourceCollection<App.Http.Resources.CompanyResource>;
@@ -16,8 +14,6 @@ type Props = {
 };
 
 export default function Company({ companies, query, onlyActive }: Props) {
-  const route = useRoute(); 
-
   const [search, setSearch] = useState(query);
   const [onlyActiveCheckbox, setOnlyActiveCheckbox] = useState(onlyActive ?? false);
 
@@ -34,22 +30,20 @@ export default function Company({ companies, query, onlyActive }: Props) {
   }, [debouncedSearch, onlyActiveCheckbox]);
 
   return (
-    <AppLayout headTitle="Companies" pageTitle="Companies" pageDescription="Manage your companies details." route={{ name: "companies", url: route("freelancer-space.company.index") }}>
-      <div>
-        <div className="">
-          <label className="block mb-2 relative md:max-w-sm group">
-            <MagnifyingGlassIcon className="absolute size-4 left-2 top-1/2 -translate-y-1/2 transform text-muted-foreground group-has-[:focus-visible]:text-slate-700" />
-            <Input type="search" placeholder="Search" className="pl-7" value={search} onChange={e => setSearch(e.target.value)} />
-          </label>
-          <div className="flex gap-2 items-center ">
-            <Checkbox id="onlyActive" name="onlyActive" checked={onlyActiveCheckbox} onChange={e => setOnlyActiveCheckbox(e.target.checked)} />
-            <Label className="text-muted-foreground" htmlFor="onlyActive">
-              Show only active companies.
-            </Label>
-          </div>
+    <div>
+      <div className="">
+        <label className="block mb-2 relative md:max-w-sm group">
+          <MagnifyingGlassIcon className="absolute size-4 left-2 top-1/2 -translate-y-1/2 transform text-muted-foreground group-has-[:focus-visible]:text-slate-700" />
+          <Input type="search" placeholder="Search" className="pl-7" value={search} onChange={e => setSearch(e.target.value)} />
+        </label>
+        <div className="flex gap-2 items-center ">
+          <Checkbox id="onlyActive" name="onlyActive" checked={onlyActiveCheckbox} onChange={e => setOnlyActiveCheckbox(e.target.checked)} />
+          <Label className="text-muted-foreground" htmlFor="onlyActive">
+            Show only active companies.
+          </Label>
         </div>
-        <CompaniesTable {...companies} resourceName="companies" />
       </div>
-    </AppLayout>
+      <CompaniesTable {...companies} resourceName="companies" />
+    </div>
   );
 }

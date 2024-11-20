@@ -1,34 +1,22 @@
 import { Head, Link } from "@inertiajs/react";
 import React, { lazy, PropsWithChildren } from "react";
 import Banner from "@/Components/Banner";
-import { AppSidebar } from "@/components/app-sidebar";
+import { AppSidebar } from "@/components/navbar/app-sidebar";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import PageTitle, { type Props as PageTitleProps } from "@/components/PageTitle";
-import { useRoute } from "ziggy-js";
-
-type RouteDetails = {
-  name: string;
-  url: string;
-};
-
-type Props = {
-  headTitle?: string;
-  renderHeader?(): JSX.Element;
-  route: RouteDetails;
-  subRoute?: RouteDetails;
-} & PageTitleProps;
+import { usePageDetails } from "@/hooks/use-page-details";
+import PageTitle from "@/components/PageTitle";
 
 // lazy load the toaster component
 const Toaster = lazy(() => import("@/components/ui/toaster").then(module => ({ default: module.Toaster })));
 
-export default function AppLayout({ headTitle, children, pageTitle, pageDescription, route, subRoute }: PropsWithChildren<Props>) {
-  const navigator = useRoute();
+export default function AppLayout({ children }: PropsWithChildren) {
+  const { head, title, route, description, pageItems, subRoute } = usePageDetails();
 
   return (
     <>
-      <Head title={headTitle} />
+      <Head title={head} />
 
       {/* useToast to trigger and edit `@/component/toast` to costume */}
       <Toaster />
@@ -37,7 +25,7 @@ export default function AppLayout({ headTitle, children, pageTitle, pageDescript
       <Banner />
 
       <SidebarProvider>
-        <AppSidebar />
+        <AppSidebar pageItems={pageItems} />
         <SidebarInset>
           <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
             <SidebarTrigger className="-ml-1" />
@@ -67,7 +55,7 @@ export default function AppLayout({ headTitle, children, pageTitle, pageDescript
             </Breadcrumb>
           </header>
           <div className="container px-1 py-2 mx-auto min-h-screen transition">
-            <PageTitle pageTitle={pageTitle} pageDescription={pageDescription} />
+            <PageTitle pageTitle={title} pageDescription={description} />
             {children}
           </div>
         </SidebarInset>
