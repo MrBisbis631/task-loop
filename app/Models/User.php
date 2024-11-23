@@ -106,4 +106,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(User::class, 'role_verified_by');
     }
+
+    /**
+     * @param RoleEnum[]|RoleEnum $roles The role(s) to check against
+     * @return bool Whether the user has the role(s)
+     */
+    public function hasRole(RoleEnum|array $roles): bool
+    {
+        return is_array($roles) ?
+            in_array($this->role, $roles) :
+            $this->role === $roles;
+    }
 }
