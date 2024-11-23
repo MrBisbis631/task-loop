@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\PaymentMethodEnum;
 use App\Enums\PaymentTermEnum;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -44,6 +45,7 @@ use Spatie\TypeScriptTransformer\Attributes\LiteralTypeScriptType;
     'phone_1_rfc3966' => 'string',
     'phone_2_rfc3966' => 'string',
     'company_term_readable' => 'string',
+    'preferred_payment_method_readable' => 'string',
 
     'companyContacts' => 'CompanyContact[]',
 ])]
@@ -68,6 +70,7 @@ class CompanyResource extends JsonResource
             'phone_2_rfc3966' => (new PhoneNumber($this->phone_2, "INTERNATIONAL"))->format(PhoneNumberFormat::RFC3966),
 
             'company_term_readable' => PaymentTermEnum::from($this->payment_terms)->readable(),
+            'preferred_payment_method_readable' => PaymentMethodEnum::from($this->preferred_payment_method)->readable(),
         ];
     }
 }
