@@ -63,7 +63,6 @@ class CompanyController extends Controller
 
         return Inertia::render("FreelancerSpace/Company/Show", [
             "company" =>  CompanyResource::make($company->load('companyContacts')),
-            "company" =>  $company->load('companyContacts'),
         ]);
     }
 
