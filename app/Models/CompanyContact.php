@@ -22,7 +22,7 @@ use Spatie\TypeScriptTransformer\Attributes\TypeScriptType;
 class CompanyContact extends Model
 {
     /** @use HasFactory<\Database\Factories\CompanyContactFactory> */
-    use HasFactory;
+    use HasFactory, \Znck\Eloquent\Traits\BelongsToThrough;
 
     protected $fillable = [
         'first_name',
@@ -45,5 +45,10 @@ class CompanyContact extends Model
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function user(): \Znck\Eloquent\Relations\BelongsToThrough
+    {
+        return $this->belongsToThrough(User::class, Company::class);
     }
 }
