@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\CompanyActivityStatusEnum;
+use App\Enums\CompanyTypeEnum;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Http\Resources\CompanyResource;
@@ -63,6 +64,7 @@ class CompanyController extends Controller
 
         return Inertia::render("FreelancerSpace/Company/Show", [
             "company" =>  CompanyResource::make($company->load('companyContacts')),
+            "companyTypes" => collect(CompanyTypeEnum::cases())->map(fn($case) => ["label" => $case->readable(), "value" => $case->value]),
         ]);
     }
 
