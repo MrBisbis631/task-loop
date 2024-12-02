@@ -17,7 +17,7 @@ export default function Company({ companies, query, onlyActive }: Props) {
   const [search, setSearch] = useState(query);
   const [onlyActiveCheckbox, setOnlyActiveCheckbox] = useState(onlyActive ?? false);
 
-  const [debouncedSearch, _] = useDebounceValue(search, 400);
+  const [debouncedSearch, _] = useDebounceValue(search, 200);
   useEffect(() => {
     if (debouncedSearch !== query || onlyActive !== onlyActiveCheckbox) {
       router.visit("", {
