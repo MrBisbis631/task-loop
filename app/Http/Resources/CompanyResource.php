@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\CompanyTypeEnum;
 use App\Enums\PaymentMethodEnum;
 use App\Enums\PaymentTermEnum;
 use Illuminate\Http\Request;
@@ -46,6 +47,7 @@ use Spatie\TypeScriptTransformer\Attributes\LiteralTypeScriptType;
     'phone_2_rfc3966' => 'string',
     'company_term_readable' => 'string',
     'preferred_payment_method_readable' => 'string',
+    'company_type_readable' => 'string',
 
     'companyContacts' => 'CompanyContact[]',
 ])]
@@ -60,17 +62,22 @@ class CompanyResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $phone_1 = $this->phone_1 ? (new PhoneNumber($this->phone_1, "INTERNATIONAL")) : null;
+        $phone_2 = $this->phone_2 ? (new PhoneNumber($this->phone_2, "INTERNATIONAL")) : null;
+
         return [
             ...parent::toArray($request),
 
-            'phone_1_readable' => (new PhoneNumber($this->phone_1, "INTERNATIONAL"))->format(PhoneNumberFormat::NATIONAL),
-            'phone_2_readable' => (new PhoneNumber($this->phone_2, "INTERNATIONAL"))->format(PhoneNumberFormat::NATIONAL),
+            'phone_1_readable' => $phone_1?->format(PhoneNumberFormat::NATIONAL),
+            'phone_2_readable' => $phone_2?->format(PhoneNumberFormat::NATIONAL),
 
-            'phone_1_rfc3966' => (new PhoneNumber($this->phone_1, "INTERNATIONAL"))->format(PhoneNumberFormat::RFC3966),
-            'phone_2_rfc3966' => (new PhoneNumber($this->phone_2, "INTERNATIONAL"))->format(PhoneNumberFormat::RFC3966),
+            'phone_1_rfc3966' => $phone_1?->format(PhoneNumberFormat::RFC3966),
+            'phone_2_rfc3966' => $phone_2?->format(PhoneNumberFormat::RFC3966),
 
             'company_term_readable' => PaymentTermEnum::from($this->payment_terms)->readable(),
             'preferred_payment_method_readable' => PaymentMethodEnum::from($this->preferred_payment_method)->readable(),
+
+            'company_type_readable' => CompanyTypeEnum::from($this->company_type)->readable(),
         ];
     }
 }
