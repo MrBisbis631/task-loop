@@ -2,6 +2,8 @@ import DetailsCard from "@/components/DataCard";
 import { googleMapsLink } from "@/lib/utils";
 import React from "react";
 import UpdateGeneralDetailsCompanyForm from "./UpdateGeneralDetailsCompanyForm";
+import UpdateContactDetailsCompanyForm from "./UpdateContactDetailsCompanyForm";
+import { getName } from "i18n-iso-countries";
 
 type Props = {
   company: App.Http.Resources.CompanyResource;
@@ -13,7 +15,7 @@ export default function Show({ company, companyTypes }: Props) {
     <div className="">
       <div className="flex flex-wrap gap-2">
         <DetailsCard title="General details" description="Company general details" items={getGeneralDetails(company)} actions={<UpdateGeneralDetailsCompanyForm company={company} companyTypes={companyTypes} />} />
-        <DetailsCard title="Contact details" description="Company contact and addresses details" items={getContactDetails(company)} />
+        <DetailsCard title="Contact details" description="Company contact and addresses details" items={getContactDetails(company)} actions={<UpdateContactDetailsCompanyForm company={company} />} />
         <DetailsCard title="Payment details" description="Company payment and taxing details" items={getPaymentDetails(company)} />
       </div>
     </div>
@@ -23,7 +25,16 @@ export default function Show({ company, companyTypes }: Props) {
 function getContactDetails(company: App.Http.Resources.CompanyResource) {
   return [
     {
-      label: "Default address",
+      label: "Email",
+      value: company.email,
+      link: {
+        href: `mailto:${company.email}`,
+        isInner: false,
+        onBlank: false,
+      },
+    },
+    {
+      label: "Address",
       value: company.address_1,
       link: {
         href: googleMapsLink(company.address_1),
@@ -32,16 +43,7 @@ function getContactDetails(company: App.Http.Resources.CompanyResource) {
       },
     },
     {
-      label: "Additional address",
-      value: company.address_2,
-      link: {
-        href: googleMapsLink(company.address_2),
-        isInner: false,
-        onBlank: true,
-      },
-    },
-    {
-      label: "Default phone",
+      label: "Phone",
       value: company.phone_1_readable,
       link: {
         href: company.phone_1_rfc3966,
@@ -50,21 +52,12 @@ function getContactDetails(company: App.Http.Resources.CompanyResource) {
       },
     },
     {
-      label: "Additional phone",
-      value: company.phone_2_readable,
-      link: {
-        href: company.phone_2_rfc3966,
-        isInner: false,
-        onBlank: false,
-      },
-    },
-    {
-      label: "State",
+      label: "State\\District",
       value: company.state,
     },
     {
-      label: "Zip code",
-      value: company.zip_code,
+      label: "Country",
+      value: getName(company.country, "en") || "",
     },
   ];
 }
@@ -79,7 +72,7 @@ function getPaymentDetails(company: App.Http.Resources.CompanyResource) {
       label: "billing address",
       value: company.billing_address,
       link: {
-        href: googleMapsLink(company.billing_address),
+        href: googleMapsLink(`${getName(company.country, "en") || ""},${company.state},${company.billing_address}`),
         isInner: false,
         onBlank: true,
       },
