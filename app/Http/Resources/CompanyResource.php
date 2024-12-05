@@ -18,6 +18,7 @@ use Spatie\TypeScriptTransformer\Attributes\LiteralTypeScriptType;
     'name' => 'string',
     'phone_1' => 'string',
     'phone_2' => 'string',
+    'email' => 'string',
     'last_contacted_at' => 'string',
     'activity_status' => 'string',
     'company_type' => 'string',

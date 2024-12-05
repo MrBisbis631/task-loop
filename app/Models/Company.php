@@ -19,6 +19,7 @@ class Company extends Model
         'name',
         'phone_1',
         'phone_2',
+        'email',
         'last_contacted_at',
         'activity_status',
         'company_type',
