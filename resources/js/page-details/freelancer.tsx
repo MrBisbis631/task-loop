@@ -28,10 +28,14 @@ export default {
     title: ({ company }) => <span>{company.name}</span>,
     description: ({ company }) => (
       <div className="flex gap-1">
-        <CompanyLinks company={company} />
-        <div className="pr-2">
-          <Separator orientation="vertical" className="" />
-        </div>
+        {company.linkedin_url || company.linkedin_url || company.website_url ? (
+          <>
+            <CompanyLinks company={company} />
+            <div className="pr-2">
+              <Separator orientation="vertical" className="" />
+            </div>
+          </>
+        ) : null}
         <CompanyTags company={company} />
       </div>
     ),
