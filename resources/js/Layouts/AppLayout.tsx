@@ -7,6 +7,11 @@ import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { usePageDetails } from "@/hooks/use-page-details";
 import PageTitle from "@/components/PageTitle";
+import { registerLocale } from "i18n-iso-countries";
+import en from "i18n-iso-countries/langs/en.json";
+
+// Register the locale for the country names
+registerLocale(en);
 
 // lazy load the toaster component
 const Toaster = lazy(() => import("@/components/ui/toaster").then(module => ({ default: module.Toaster })));
