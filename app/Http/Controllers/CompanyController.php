@@ -85,7 +85,7 @@ class CompanyController extends Controller
 
         $company->updateOrFail($request->validated());
 
-        return to_route('freelancer-space.company.index');
+        return to_route('freelancer-space.company.show', $company);
     }
 
     /**
