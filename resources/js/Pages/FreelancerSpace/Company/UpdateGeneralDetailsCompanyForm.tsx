@@ -13,7 +13,7 @@ import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { router } from "@inertiajs/react";
 import { useRoute } from "ziggy-js";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 type UpdateGeneralDetailsFormProps = {
   company: App.Http.Resources.CompanyResource;
@@ -23,13 +23,13 @@ type UpdateGeneralDetailsFormProps = {
 const formSchema = z.object({
   name: z.string().optional(),
   company_type: z.string().optional(),
-  website_url: z.string().url().optional(),
-  linkedin_url: z.string().url().optional(),
-  instagram_url: z.string().url().optional(),
+  website_url: z.union([z.string().url().optional(), z.string().max(0)]),
+  linkedin_url: z.union([z.string().url().optional(), z.string().max(0)]),
+  instagram_url: z.union([z.string().url().optional(), z.string().max(0)]),
   activity_status: z.boolean().optional(),
 });
 
-export function UpdateGeneralDetailsForm({ company, companyTypes }: UpdateGeneralDetailsFormProps) {
+export default function UpdateGeneralDetailsForm({ company, companyTypes }: UpdateGeneralDetailsFormProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const { toast } = useToast();
   const route = useRoute();
@@ -38,12 +38,23 @@ export function UpdateGeneralDetailsForm({ company, companyTypes }: UpdateGenera
     resolver: zodResolver(formSchema),
     defaultValues: {
       ...company,
-      activity_status: company.company_type === "active" ? true : false,
+      instagram_url: company.instagram_url || "",
+      linkedin_url: company.linkedin_url || "",
+      website_url: company.website_url || "",
+      activity_status: company.activity_status === "active" ? true : false,
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    router.put(route("freelancer-space.company.update", { company: company.id }), values, {
+    const requestData = {
+      ...values,
+      instagram_url: values.instagram_url || null,
+      linkedin_url: values.linkedin_url || null,
+      website_url: values.website_url || null,
+      activity_status: values.activity_status ? "active" : "inactive",
+    };
+
+    router.put(route("freelancer-space.company.update", { company: company.id }), requestData, {
       onSuccess: () => {
         toast({
           title: "Company updated",
@@ -51,11 +62,17 @@ export function UpdateGeneralDetailsForm({ company, companyTypes }: UpdateGenera
         });
         setIsOpen(false);
       },
-      onError: () => {
+      onError: errorEv => {
         toast({
           title: "Failed to update company",
-          description: "An error occurred while updating company general details.",
           variant: "destructive",
+          description: (
+            <ul>
+              {Object.entries(errorEv).map(([key, value]) => (
+                <li key={key}>{value}</li>
+              ))}
+            </ul>
+          ),
         });
       },
     });
@@ -72,7 +89,10 @@ export function UpdateGeneralDetailsForm({ company, companyTypes }: UpdateGenera
         <Button variant="outline">Update general details</Button>
       </DialogTrigger>
       <DialogContent>
-        <h2 className="text-xl font-semibold">Update company details</h2>
+        <DialogHeader>
+          <DialogTitle>Update general details</DialogTitle>
+          <DialogDescription>Update general details of the company, such as name, type, website, and social media links.</DialogDescription>
+        </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 max-w-3xl mx-auto">
             <FormField
@@ -185,7 +205,7 @@ export function UpdateGeneralDetailsForm({ company, companyTypes }: UpdateGenera
               render={({ field }) => (
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                   <div className="space-y-0.5">
-                    <FormLabel>Activity Status </FormLabel>
+                    <FormLabel>Activity Status</FormLabel>
                     <FormDescription>Check if the company is still active and requires your services</FormDescription>
                   </div>
                   <FormControl>

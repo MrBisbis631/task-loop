@@ -1,7 +1,7 @@
 import DetailsCard from "@/components/DataCard";
 import { googleMapsLink } from "@/lib/utils";
 import React from "react";
-import { UpdateGeneralDetailsForm } from "./UpdateCompanyForms";
+import UpdateGeneralDetailsCompanyForm from "./UpdateGeneralDetailsCompanyForm";
 
 type Props = {
   company: App.Http.Resources.CompanyResource;
@@ -12,7 +12,7 @@ export default function Show({ company, companyTypes }: Props) {
   return (
     <div className="">
       <div className="flex flex-wrap gap-2">
-        <DetailsCard title="General details" description="Company general details" items={getGeneralDetails(company)} actions={<UpdateGeneralDetailsForm company={company} companyTypes={companyTypes} />} />
+        <DetailsCard title="General details" description="Company general details" items={getGeneralDetails(company)} actions={<UpdateGeneralDetailsCompanyForm company={company} companyTypes={companyTypes} />} />
         <DetailsCard title="Contact details" description="Company contact and addresses details" items={getContactDetails(company)} />
         <DetailsCard title="Payment details" description="Company payment and taxing details" items={getPaymentDetails(company)} />
       </div>
