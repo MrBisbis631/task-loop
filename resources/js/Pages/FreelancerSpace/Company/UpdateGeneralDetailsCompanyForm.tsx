@@ -2,13 +2,9 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Check, ChevronsUpDown } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { router } from "@inertiajs/react";
@@ -17,19 +13,17 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 
 type UpdateGeneralDetailsFormProps = {
   company: App.Http.Resources.CompanyResource;
-  companyTypes: { label: string; value: string }[];
 };
 
 const formSchema = z.object({
   name: z.string().optional(),
-  company_type: z.string().optional(),
   website_url: z.union([z.string().url().optional(), z.string().max(0)]),
   linkedin_url: z.union([z.string().url().optional(), z.string().max(0)]),
   instagram_url: z.union([z.string().url().optional(), z.string().max(0)]),
   activity_status: z.boolean().optional(),
 });
 
-export default function UpdateGeneralDetailsForm({ company, companyTypes }: UpdateGeneralDetailsFormProps) {
+export default function UpdateGeneralDetailsForm({ company }: UpdateGeneralDetailsFormProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const { toast } = useToast();
   const route = useRoute();
@@ -105,50 +99,6 @@ export default function UpdateGeneralDetailsForm({ company, companyTypes }: Upda
                     <Input placeholder="Fill Ltd" type="text" {...field} />
                   </FormControl>
                   <FormDescription>Name of the company</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="company_type"
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>Company type</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button variant="outline" role="combobox" className={cn("justify-between", !field.value && "text-muted-foreground")}>
-                          {field.value ? companyTypes.find(type => type.value === field.value)?.label : "Select type"}
-                          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="p-0" align={"start"}>
-                      <Command>
-                        <CommandInput placeholder="Search type..." />
-                        <CommandList>
-                          <CommandEmpty>No type found.</CommandEmpty>
-                          <CommandGroup>
-                            {companyTypes.map(type => (
-                              <CommandItem
-                                value={type.label}
-                                key={type.value}
-                                onSelect={() => {
-                                  form.setValue("company_type", type.value);
-                                }}
-                              >
-                                <Check className={cn("mr-2 h-4 w-4", type.value === field.value ? "opacity-100" : "opacity-0")} />
-                                {type.label}
-                              </CommandItem>
-                            ))}
-                          </CommandGroup>
-                        </CommandList>
-                      </Command>
-                    </PopoverContent>
-                  </Popover>
-                  <FormDescription>Typically refers to the current state or condition of a company in terms of its operational and legal standing.</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
