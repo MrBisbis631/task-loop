@@ -1,22 +1,30 @@
-import DetailsCard from "@/components/DataCard";
-import { googleMapsLink } from "@/lib/utils";
 import React from "react";
+import DetailsCard from "@/components/DataCard";
 import UpdateGeneralDetailsCompanyForm from "./UpdateGeneralDetailsCompanyForm";
 import UpdateContactDetailsCompanyForm from "./UpdateContactDetailsCompanyForm";
+import UpdateTaxDetailsCompanyForm from "./UpdateTaxDetailsCompanyForm";
+import { googleMapsLink } from "@/lib/utils";
 import { getName } from "i18n-iso-countries";
 
 type Props = {
   company: App.Http.Resources.CompanyResource;
-  companyTypes: { label: string; value: string }[];
+  companyTypeEnumAsArray: {
+    value: string;
+    description: string;
+    readable: string;
+  }[];
 };
 
-export default function Show({ company, companyTypes }: Props) {
+export default function Show({ company, companyTypeEnumAsArray }: Props) {
   return (
-    <div className="">
+    <div className="mb-2">
+      <div>
+        <h1 className="text-2xl">Company details</h1>
+      </div>
       <div className="flex flex-wrap gap-2">
-        <DetailsCard title="General details" description="Company general details" items={getGeneralDetails(company)} actions={<UpdateGeneralDetailsCompanyForm company={company} companyTypes={companyTypes} />} />
+        <DetailsCard title="General details" description="Company general details" items={getGeneralDetails(company)} actions={<UpdateGeneralDetailsCompanyForm company={company} />} />
         <DetailsCard title="Contact details" description="Company contact and addresses details" items={getContactDetails(company)} actions={<UpdateContactDetailsCompanyForm company={company} />} />
-        <DetailsCard title="Payment details" description="Company payment and taxing details" items={getPaymentDetails(company)} />
+        <DetailsCard title="Tax details" description="Company taxing details" items={getTaxDetails(company)} actions={<UpdateTaxDetailsCompanyForm company={company} companyTypeEnumAsArray={companyTypeEnumAsArray} />} />
       </div>
     </div>
   );
@@ -37,7 +45,7 @@ function getContactDetails(company: App.Http.Resources.CompanyResource) {
       label: "Address",
       value: company.address_1,
       link: {
-        href: googleMapsLink(company.address_1),
+        href: googleMapsLink(`${getName(company.country, "en") || ""},${company.state},${company.address_1}`),
         isInner: false,
         onBlank: true,
       },
@@ -62,21 +70,8 @@ function getContactDetails(company: App.Http.Resources.CompanyResource) {
   ];
 }
 
-function getPaymentDetails(company: App.Http.Resources.CompanyResource) {
+function getTaxDetails(company: App.Http.Resources.CompanyResource) {
   return [
-    {
-      label: "Default currency",
-      value: company.preferred_currency,
-    },
-    {
-      label: "billing address",
-      value: company.billing_address,
-      link: {
-        href: googleMapsLink(`${getName(company.country, "en") || ""},${company.state},${company.billing_address}`),
-        isInner: false,
-        onBlank: true,
-      },
-    },
     {
       label: "Tax identification number",
       value: company.tax_identification_number,
@@ -92,6 +87,15 @@ function getPaymentDetails(company: App.Http.Resources.CompanyResource) {
     {
       label: "Tax filing category",
       value: company.tax_filing_category,
+    },
+    {
+      label: "Tax documentation",
+      value: company.tax_documentation_url,
+      link: {
+        href: company.tax_documentation_url,
+        isInner: false,
+        onBlank: true,
+      },
     },
   ];
 }
