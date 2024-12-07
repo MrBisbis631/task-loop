@@ -11,13 +11,9 @@ import { useRoute } from "ziggy-js";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { PhoneInput } from "@/components/ui/phone-input";
 import LocationSelector, { CountryProps, StateProps } from "@/components/ui/location-input";
-import { getAlpha2Code, getName, registerLocale } from "i18n-iso-countries";
+import { getAlpha2Code, getName } from "i18n-iso-countries";
 import countries from "@/data/countries.json";
 import states from "@/data/states.json";
-import en from "i18n-iso-countries/langs/en.json";
-
-// Register the locale for the country names
-registerLocale(en);
 
 type UpdateContactDetailsCompanyFormProps = {
   company: App.Http.Resources.CompanyResource;
