@@ -64,7 +64,7 @@ class CompanyController extends Controller
 
         return Inertia::render("FreelancerSpace/Company/Show", [
             "company" =>  CompanyResource::make($company->load('companyContacts')),
-            "companyTypes" => collect(CompanyTypeEnum::cases())->map(fn($case) => ["label" => $case->readable(), "value" => $case->value]),
+            "companyTypeEnumAsArray" => CompanyTypeEnum::toArray(),
         ]);
     }
 
