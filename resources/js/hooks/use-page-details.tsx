@@ -2,6 +2,7 @@ import useRoute from "@/Hooks/useRoute";
 import useTypedPage from "@/Hooks/useTypedPage";
 import freelancerRoutes from "@/page-details/freelancer";
 import adminRoutes from "@/page-details/admin";
+import commonRoutes from "@/page-details/common";
 import clientRoutes from "@/page-details/client";
 import superAdminRoutes from "@/page-details/super-admin";
 import { route } from "ziggy-js";
@@ -11,6 +12,7 @@ const pagesDetails = {
   ...adminRoutes,
   ...clientRoutes,
   ...superAdminRoutes,
+  ...commonRoutes,
 };
 
 export function usePageDetails(): Page.PageDetails {
