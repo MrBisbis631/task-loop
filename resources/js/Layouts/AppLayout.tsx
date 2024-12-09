@@ -59,7 +59,8 @@ export default function AppLayout({ children }: PropsWithChildren) {
               </BreadcrumbList>
             </Breadcrumb>
           </header>
-          <div className="container px-1 py-2 mx-auto min-h-screen transition">
+          {/* screen - width of upper navbar */}
+          <div className="container px-1 py-2 mx-auto min-h-[100vh-4rem] transition">
             <PageTitle pageTitle={title} pageDescription={description} />
             {children}
           </div>

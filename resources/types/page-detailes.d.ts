@@ -19,8 +19,8 @@ declare namespace Page {
 
   interface PageDetails {
     head: string;
-    title: React.ReactNode;
-    description: React.ReactNode;
+    title?: React.ReactNode;
+    description?: React.ReactNode;
 
     route: {
       name: string;
