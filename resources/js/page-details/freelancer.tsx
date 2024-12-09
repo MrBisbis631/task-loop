@@ -7,20 +7,20 @@ export default {
     head: "External API Details",
     title: () => <span>External API Details</span>,
     description: () => <span>Manage your external API details.</span>,
-    route: {
+    getRoute: () => ({
       name: "External API Details",
-      routeName: "freelancer-space.external-api-details.index",
-    },
+      url: "freelancer-space.external-api-details.index",
+    }),
     canAccess: user => user.role === "freelancer" || user.role === "admin" || user.role === "super-admin",
   },
   "freelancer-space.company.index": {
     head: "Companies",
     title: () => <span>Companies</span>,
     description: () => <span>Manage your companies.</span>,
-    route: {
+    getRoute: () => ({
       name: "Companies",
-      routeName: "freelancer-space.company.index",
-    },
+      url: "freelancer-space.company.index",
+    }),
     canAccess: user => user.role === "freelancer" || user.role === "admin" || user.role === "super-admin",
   },
   "freelancer-space.company.show": {
@@ -39,12 +39,32 @@ export default {
         <CompanyTags company={company} />
       </div>
     ),
-    route: {
+    getRoute: () => ({
       name: "Company",
-      routeName: "freelancer-space.company.index",
-    },
+      url: "freelancer-space.company.index",
+    }),
     getSubroute: ({ company }) => ({ name: company.name, url: ["freelancer-space.company.show", [company.id]] }),
     canAccess: user => user.role === "freelancer" || user.role === "admin" || user.role === "super-admin",
-    pageItems: ({ company }) => [{ name: "Details", url: ["freelancer-space.company.show", [company.id]], isActive: true }],
+    pageItems: ({ company }) => [
+      { name: "See all", url: ["freelancer-space.company.index"] },
+      { name: "Details", url: ["freelancer-space.company.show", [company.id]] },
+      { name: "Contacts", url: ["freelancer-space.company.company-contact.index", [company.id]] },
+    ],
+  },
+  "freelancer-space.company.company-contact.index": {
+    head: "Company Contacts",
+    title: ({ company }) => <span>{company.name} Contacts</span>,
+    description: () => <span>Manage your company contacts.</span>,
+    getRoute: ({ company }) => ({ name: company.name, url: ["freelancer-space.company.show", [company.id]] }),
+    getSubroute: ({ company }) => ({
+      name: "Company Contacts",
+      url: ["freelancer-space.company.company-contact.index", [company.id]],
+    }),
+    canAccess: user => user.role === "freelancer" || user.role === "admin" || user.role === "super-admin",
+    pageItems: ({ company }) => [
+      { name: "See all", url: ["freelancer-space.company.index"] },
+      { name: "Details", url: ["freelancer-space.company.show", [company.id]] },
+      { name: "Contacts", url: ["freelancer-space.company.company-contact.index", [company.id]] },
+    ],
   },
 } as { [key: string]: Page.PageDetailsBuilder<unknown> };
