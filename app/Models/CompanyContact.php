@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\CompanyContactActivityStatusEnum;
 use App\Enums\ContactMethodEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -34,12 +35,14 @@ class CompanyContact extends Model
         'preferred_contact_method',
         'last_contacted_at',
         'notes',
+        'activity_status',
     ];
 
     protected $cast = [
         'last_contacted_at' => 'date',
         'preferred_contact_method' => ContactMethodEnum::class,
         'notes' => 'array',
+        'activity_status' => CompanyContactActivityStatusEnum::class,
     ];
 
     public function company(): BelongsTo
