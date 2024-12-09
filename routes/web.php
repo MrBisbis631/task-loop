@@ -47,7 +47,7 @@ Route::middleware([
 
         Route::resource('company.company-contact', CompanyContactController::class)
             ->parameter('company-contact', 'companyContact')
-            ->only(['store', 'update', 'destroy']);
+            ->only(['index', 'store', 'update', 'destroy']);
 
 
         Route::get("/test", fn() => "Hello freelancer");
