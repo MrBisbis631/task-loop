@@ -34,7 +34,7 @@ export default function DataCard({ description, title, items, actions }: CardDat
   };
 
   return (
-    <Card className="max-w-md flex-auto flex flex-col justify-between">
+    <Card className="max-w-xl flex-auto flex flex-col justify-between">
       <div className="">
         {/* card title & description */}
         <CardHeader>
