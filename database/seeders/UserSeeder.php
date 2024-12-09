@@ -7,7 +7,6 @@ use App\Enums\RoleEnum;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
-use Laravel\Jetstream\Rules\Role;
 
 class UserSeeder extends Seeder
 {
