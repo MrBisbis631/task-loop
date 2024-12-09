@@ -9,6 +9,7 @@ import { usePageDetails } from "@/hooks/use-page-details";
 import PageTitle from "@/components/PageTitle";
 import { registerLocale } from "i18n-iso-countries";
 import en from "i18n-iso-countries/langs/en.json";
+import useTypedPage from "@/Hooks/useTypedPage";
 
 // Register the locale for the country names
 registerLocale(en);
@@ -18,6 +19,11 @@ const Toaster = lazy(() => import("@/components/ui/toaster").then(module => ({ d
 
 export default function AppLayout({ children }: PropsWithChildren) {
   const { head, title, route, description, pageItems, subRoute } = usePageDetails();
+  const {
+    props: {
+      auth: { user },
+    },
+  } = useTypedPage();
 
   return (
     <>
@@ -30,11 +36,15 @@ export default function AppLayout({ children }: PropsWithChildren) {
       <Banner />
 
       <SidebarProvider>
-        <AppSidebar pageItems={pageItems} />
+        {user ? <AppSidebar pageItems={pageItems} /> : null}
         <SidebarInset>
           <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
-            <SidebarTrigger className="-ml-1" />
-            <Separator orientation="vertical" className="mr-2 h-4" />
+            {user ? (
+              <>
+                <SidebarTrigger className="-ml-1" />
+                <Separator orientation="vertical" className="mr-2 h-4" />
+              </>
+            ) : null}
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
