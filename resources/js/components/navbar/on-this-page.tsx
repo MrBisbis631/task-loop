@@ -1,16 +1,17 @@
 import React from "react";
 import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 
 type Props = {
   items?: {
     title: string;
     url: string;
-    isActive?: boolean;
   }[];
 };
 
 export default function OnThisPage({ items }: Props) {
+  const { url } = usePage();
+
   if (!items?.length) {
     return null;
   }
@@ -21,8 +22,8 @@ export default function OnThisPage({ items }: Props) {
       <SidebarGroupContent>
         <SidebarMenu>
           {items.map(item => (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton asChild isActive={item.isActive}>
+            <SidebarMenuItem key={item.url}>
+              <SidebarMenuButton asChild isActive={new URL(item.url).pathname === url}>
                 <Link href={item.url}>{item.title}</Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
