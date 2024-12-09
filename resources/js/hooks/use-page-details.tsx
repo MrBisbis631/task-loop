@@ -24,15 +24,13 @@ export function usePageDetails(): Page.PageDetails {
     throw new Error(`No layout details found for route: ${route().current()}`);
   }
 
-  const subRoute = currentRoute.getSubroute ? currentRoute.getSubroute(props) : undefined;
+  const mainRoute = currentRoute.getRoute(props);
+  const subRoute = currentRoute.getSubroute?.(props);
   return {
     head: currentRoute.head,
     title: currentRoute.title(props),
     description: currentRoute.description(props),
-    route: {
-      name: currentRoute.route.name,
-      url: router(currentRoute.route.routeName),
-    },
+    route: { name: mainRoute.name, url: Array.isArray(mainRoute.url) ? router(...(mainRoute.url as [string])) : router(mainRoute.url) },
     subRoute: subRoute ? { name: subRoute.name, url: router(...(subRoute.url as [string])) } : undefined,
     pageItems: currentRoute.pageItems
       ? currentRoute.pageItems(props).map(({ name, url, isActive }) => ({

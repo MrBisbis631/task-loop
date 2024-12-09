@@ -4,14 +4,14 @@ declare namespace Page {
     title: (props: T | undefined) => React.ReactNode;
     description: (props: T | undefined) => React.ReactNode;
 
-    route: {
+    getRoute: (props: T) => {
       name: string;
-      routeName: string;
+      url: (string | number)[] | string;
     };
 
     getSubroute?: (props: T) => {
       name: string;
-      url: (string | number)[];
+      url: (string | number)[] | string;
     };
     pageItems?: (props: T) => { name: string; url: (string | number)[]; isActive?: boolean }[];
     canAccess?: (user: App.Models.User) => boolean;
