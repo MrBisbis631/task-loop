@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import CompaniesTable from "./CompaniesTable";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { Input } from "@/components/ui/input";
 import { useDebounceValue } from "usehooks-ts";
 import { router } from "@inertiajs/react";
 import Checkbox from "@/Components/Checkbox";
 import { Label } from "@/components/ui/label";
+import ResourceCollectionTable from "@/components/ResourceCollectionTable";
+import { columns } from "./CompaniesTableColumns";
 
 type Props = {
   companies: App.ResourceCollection<App.Http.Resources.CompanyResource>;
@@ -43,7 +44,7 @@ export default function Company({ companies, query, onlyActive }: Props) {
           </Label>
         </div>
       </div>
-      <CompaniesTable {...companies} resourceName="companies" />
+      <ResourceCollectionTable {...companies} columns={columns} resourceName="companies" />
     </div>
   );
 }
