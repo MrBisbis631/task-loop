@@ -50,7 +50,7 @@ export const columns: ColumnDef<App.Http.Resources.CompanyContactResource>[] = [
 function Tags({ companyContact }: { companyContact: App.Http.Resources.CompanyContactResource }) {
   return (
     <div className="gap-1 flex flex-wrap">
-      {companyContact.activity_status_readable && <Badge className={cn(companyContact.activity_status === "active" ? "bg-green-500" : companyContact.activity_status === "inactive" ? "bg-red-500" : companyContact.activity_status === "in_validation" ? "bg-yellow-500" : null)}>{companyContact.activity_status_readable}</Badge>}
+      {companyContact.activity_status_readable && <Badge className={cn("text-nowrap", companyContact.activity_status === "active" ? "bg-green-500" : companyContact.activity_status === "inactive" ? "bg-red-500" : companyContact.activity_status === "in_validation" ? "bg-yellow-500" : null)}>{companyContact.activity_status_readable}</Badge>}
       {companyContact.preferred_contact_method_readable && <Badge variant={"outline"}>{companyContact.preferred_contact_method_readable}</Badge>}
     </div>
   );
