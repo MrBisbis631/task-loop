@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use App\Enums\ContactMethodEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CompanyContact>
@@ -27,7 +27,7 @@ class CompanyContactFactory extends Factory
             'job_title' => $this->faker->jobTitle,
             'preferred_contact_method' => $this->faker->randomElement(ContactMethodEnum::cases()),
             'last_contacted_at' => $this->faker->dateTimeThisYear,
-            'notes' => Arr::map(array_fill(0, $this->faker->numberBetween(0, 3), 1), fn() => [
+            'notes' => Collection::range(0, $this->faker->numberBetween(0, 3))->map(fn() => [
                 'created_at' => $this->faker->dateTimeThisYear,
                 'title' => $this->faker,
                 'content' => $this->faker->paragraph(2),
