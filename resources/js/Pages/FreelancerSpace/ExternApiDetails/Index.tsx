@@ -16,8 +16,7 @@ type Props = {
 function Index({ externApiDetails, query }: Props) {
   const route = useRoute();
   const [search, setSearch] = useState(query ?? "");
-  const [debouncedSearch, _] = useDebounceValue(search, 400);
-  const searchRef = useRef<React.ElementRef<typeof Input>>(null);
+  const [debouncedSearch, _] = useDebounceValue(search, 200);
 
   useEffect(() => {
     if (search !== query) {
@@ -36,7 +35,7 @@ function Index({ externApiDetails, query }: Props) {
       <div className="">
         <label className="block mb-2 relative md:max-w-sm group">
           <MagnifyingGlassIcon className="absolute size-4 left-2 top-1/2 -translate-y-1/2 transform text-muted-foreground group-has-[:focus-visible]:text-slate-700" />
-          <Input ref={searchRef} type="search" placeholder="Search" className="pl-7" value={search} onChange={e => setSearch(e.target.value)} />
+          <Input type="search" placeholder="Search" className="pl-7" value={search} onChange={e => setSearch(e.target.value)} />
         </label>
         <div className="grid gap-2 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
           <CreateExternalApiDetailsCard />
