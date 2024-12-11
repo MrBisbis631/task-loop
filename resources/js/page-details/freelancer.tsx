@@ -1,5 +1,5 @@
 import { Separator } from "@/components/ui/separator";
-import { CompanyLinks, CompanyTags } from "@/Pages/FreelancerSpace/Company/CompaniesTable";
+import { CompanyLinks, CompanyTags } from "@/Pages/FreelancerSpace/Company/CompaniesTableColumns";
 import React from "react";
 
 export default {
