@@ -7,6 +7,8 @@ use App\Enums\ContactMethodEnum;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\TypeScriptTransformer\Attributes\TypeScriptType;
+use Propaganistas\LaravelPhone\PhoneNumber;
+use libphonenumber\PhoneNumberFormat;
 
 #[TypeScriptType([
     'first_name' => 'string',
@@ -17,9 +19,11 @@ use Spatie\TypeScriptTransformer\Attributes\TypeScriptType;
     'job_title' => 'string',
     'preferred_contact_method' => ContactMethodEnum::class,
     'last_contacted_at' => 'string',
+    'phone_readable' => 'string',
+    'phone_rfc3966' => 'string',
     'notes' => 'string[]',
 
-    'preferred_contact_method_readable' => 'string',
+    'preferred_contact_method_readable' => ContactMethodEnum::class,
     'activity_status' => CompanyContactActivityStatusEnum::class,
 
     'activity_status_readable' => 'string',
@@ -35,11 +39,16 @@ class CompanyContactResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $phone = $this->phone ? (new PhoneNumber($this->phone, "INTERNATIONAL")) : null;
+
         return [
             ...parent::toArray($request),
 
-            'preferred_contact_method_readable' => $this->preferred_contact_method->readable(),
-            'activity_status_readable' => $this->activity_status->readable(),
+            'phone_readable' => $phone?->format(PhoneNumberFormat::NATIONAL),
+            'phone_rfc3966' => $phone?->format(PhoneNumberFormat::RFC3966),
+
+            'preferred_contact_method_readable' => ContactMethodEnum::from($this->preferred_contact_method)->readable(),
+            'activity_status_readable' => CompanyContactActivityStatusEnum::from($this->activity_status)->readable(),
         ];
     }
 }
