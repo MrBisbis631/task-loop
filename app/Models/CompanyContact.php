@@ -29,7 +29,7 @@ class CompanyContact extends Model
     protected $cast = [
         'last_contacted_at' => 'date',
         'preferred_contact_method' => ContactMethodEnum::class,
-        'notes' => 'array',
+        'notes' => 'collection',
         'activity_status' => CompanyContactActivityStatusEnum::class,
     ];
 
