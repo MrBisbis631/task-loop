@@ -5,20 +5,20 @@ export default {
     head: "Register",
     title: () => null,
     description: () => null,
-    route: {
+    getRoute: () => ({
       name: "Register",
-      routeName: "register",
-    },
+      url: "register",
+    }),
     canAccess: () => true,
   },
   login: {
     head: "Login",
     title: () => null,
     description: () => null,
-    route: {
+    getRoute: () => ({
       name: "Login",
-      routeName: "login",
-    },
+      url: "login",
+    }),
     canAccess: () => true,
   },
 } as { [key: string]: Page.PageDetailsBuilder };
