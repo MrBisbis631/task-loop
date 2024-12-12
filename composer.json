@@ -9,6 +9,7 @@
         "inertiajs/inertia-laravel": "2.x-dev",
         "laravel/framework": "^11.9",
         "laravel/jetstream": "^5.2",
+        "laravel/pennant": "^1.13",
         "laravel/sanctum": "^4.0",
         "laravel/scout": "^10.11",
         "laravel/tinker": "^2.9",
