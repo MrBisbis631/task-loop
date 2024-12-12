@@ -12,6 +12,7 @@ use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
+use Laravel\Pennant\Feature;
 
 class ExternApiDetailController extends Controller
 {
@@ -25,8 +26,16 @@ class ExternApiDetailController extends Controller
         return Inertia::render("FreelancerSpace/ExternApiDetails/Index", [
             "query" => $query,
             "externApiDetails" => ExternApiDetailResource::collection(
-                ExternApiDetail::search($query)
-                    ->options(['query_by' => 'api_name, label, description, api_username',])
+                Feature::when(
+                    'search-engine',
+                    fn() => ExternApiDetail::search($query)->options(['query_by' => 'api_name, label, description, api_username']),
+                    fn() => ExternApiDetail::where(
+                        fn($q) => $q
+                            ->orWhere('api_name', 'like', "{$query}%")
+                            ->orWhere('label', 'like', "{$query}%")
+                            ->orWhere('api_username', 'like', "{$query}%")
+                    )
+                )
                     ->where('user_id', auth()->id())
                     ->paginate(8)
                     ->onEachSide(1)
