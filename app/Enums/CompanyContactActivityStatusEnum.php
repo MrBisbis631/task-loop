@@ -4,16 +4,18 @@ namespace App\Enums;
 
 enum CompanyContactActivityStatusEnum: string
 {
+    case UNKNOWN = "unknown";
     case ACTIVE = "active";
     case INACTIVE = "inactive";
-    case IN_VALIDATION = "in_validation";
+    case IN_VACATION = "in_vacation";
 
     public function readable(): string
     {
         return match ($this) {
+            self::UNKNOWN => "Unknown",
             self::ACTIVE => 'Active',
             self::INACTIVE => 'Inactive',
-            self::IN_VALIDATION => 'In Validation',
+            self::IN_VACATION => 'In vacation',
         };
     }
 
