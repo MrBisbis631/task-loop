@@ -52,7 +52,6 @@ export default function UpdateContactDetailsCompanyForm({ company }: UpdateConta
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log({ values });
     const requestData = {
       ...values,
       country: values.country_state && values.country_state?.length > 0 ? getAlpha2Code(values.country_state[0], "en") : null,
