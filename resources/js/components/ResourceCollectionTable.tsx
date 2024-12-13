@@ -55,7 +55,7 @@ export default function CompanyContactTable<T>({ columns, data, meta, resourceNa
                 <span>
                   {data.length} of {meta?.total} row(s) selected.
                 </span>
-                <PaginationLinks resourceName={resourceName} compact />
+                <PaginationLinks resourceName={resourceName} meta={meta} compact />
               </div>
             </TableCell>
           </TableRow>
