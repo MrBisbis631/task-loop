@@ -4,6 +4,7 @@ namespace App\Enums;
 
 enum ContactMethodEnum: string
 {
+    case OTHER = 'other';
     case EMAIL = 'email';
     case PHONE = 'phone';
     case SMS = 'sms';
@@ -11,6 +12,7 @@ enum ContactMethodEnum: string
     public function readable(): string
     {
         return match ($this) {
+            self::OTHER => 'Other',
             self::EMAIL => 'Email',
             self::PHONE => 'Phone',
             self::SMS => 'SMS',
