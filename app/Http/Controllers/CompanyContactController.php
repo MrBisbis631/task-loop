@@ -23,6 +23,8 @@ class CompanyContactController extends Controller
      */
     public function index(Company $company, Request $request)
     {
+        Gate::authorize("view", $company);
+
         $query = $request->get("query", "");
         $activityStatus = $request->input('activityStatus', "");
 
@@ -36,7 +38,7 @@ class CompanyContactController extends Controller
             "company" => CompanyResource::make($company),
             "companyContacts" => CompanyContactResource::collection(
                 $company->companyContacts()
-                    ->when($query != "", function($q) use ($query) {
+                    ->when($query != "", function ($q) use ($query) {
                         $q->where("first_name", "like", "$query%")
                             ->orWhere("last_name", "like", "$query%")
                             ->orWhere("email", "like", "$query%");
@@ -61,13 +63,13 @@ class CompanyContactController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCompanyContactRequest $request, #[CurrentUser] User $user)
+    public function store(StoreCompanyContactRequest $request, Company $company, #[CurrentUser] User $user)
     {
         $validated = $request->validated();
 
         $user->companies()->findOrFail($validated['company_id'])->companyContacts()->create($validated);
 
-        return to_route("freelance-space.company.index", [$validated['company_id']]);
+        return to_route("freelancer-space.company.company-contact.index", [$company->getKey()]);
     }
 
     /**
@@ -89,24 +91,24 @@ class CompanyContactController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCompanyContactRequest $request, CompanyContact $companyContact)
+    public function update(UpdateCompanyContactRequest $request, Company $company, CompanyContact $companyContact)
     {
         Gate::authorize('update', $companyContact);
 
         $companyContact->updateOrFail($request->validated());
 
-        return to_route("freelance-space.company.index", [$companyContact->company()->getKey()]);
+        return to_route("freelancer-space.company.company-contact.index", [$company->getKey()]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CompanyContact $companyContact)
+    public function destroy(Company $company, CompanyContact $companyContact)
     {
         Gate::authorize('delete', $companyContact);
 
         $companyContact->deleteOrFail();
 
-        return to_route("freelance-space.company.index", [$companyContact->company()->getKey()]);
+        return to_route("freelancer-space.company.company-contact.index", [$company->getKey()]);
     }
 }
