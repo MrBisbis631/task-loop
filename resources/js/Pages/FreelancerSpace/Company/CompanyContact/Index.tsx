@@ -6,6 +6,7 @@ import { useDebounceValue } from "usehooks-ts";
 import { Input } from "@/components/ui/input";
 import { router } from "@inertiajs/react";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import CreateCompanyContactForm from "./CreateCompanyContactForm";
 
 type Props = {
   query?: string;
@@ -22,7 +23,7 @@ type Props = {
   companyContacts: App.ResourceCollection<App.Http.Resources.CompanyContactResource>;
 };
 
-function Index({ company, companyContacts, query }: Props) {
+function Index({ company, companyContacts, query, contactMethodEnumAsArray }: Props) {
   const route = useRoute();
   const [search, setSearch] = useState(query ?? "");
   const [debouncedSearch, _] = useDebounceValue(search, 200);
@@ -40,12 +41,13 @@ function Index({ company, companyContacts, query }: Props) {
   }, [debouncedSearch]);
   return (
     <div>
-      <div className="">
-        <label className="block mb-2 relative md:max-w-sm group">
+      <div className="space-y-3">
+        <label className="block relative md:max-w-sm group">
           <MagnifyingGlassIcon className="absolute size-4 left-2 top-1/2 -translate-y-1/2 transform text-muted-foreground group-has-[:focus-visible]:text-slate-700" />
           <Input type="search" placeholder="Search" className="pl-7" value={search} onChange={e => setSearch(e.target.value)} />
         </label>{" "}
         <ResourceCollectionTable {...companyContacts} columns={columns} resourceName="companyContacts" />
+        <CreateCompanyContactForm company={company} contactMethodEnumAsArray={contactMethodEnumAsArray} />
       </div>
     </div>
   );
