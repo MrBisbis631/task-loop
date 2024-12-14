@@ -10,8 +10,6 @@ use App\Http\Resources\CompanyContactResource;
 use App\Http\Resources\CompanyResource;
 use App\Models\Company;
 use App\Models\CompanyContact;
-use App\Models\User;
-use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
@@ -98,7 +96,7 @@ class CompanyContactController extends Controller
 
         $companyContact->updateOrFail($request->validated());
 
-        return to_route("freelancer-space.company.company-contact.index", [$company->getKey()]);
+        return to_route("freelancer-space.company.company-contact.index", [$company]);
     }
 
     /**
@@ -110,6 +108,6 @@ class CompanyContactController extends Controller
 
         $companyContact->deleteOrFail();
 
-        return to_route("freelancer-space.company.company-contact.index", [$company->getKey()]);
+        return to_route("freelancer-space.company.company-contact.index", [$company]);
     }
 }
