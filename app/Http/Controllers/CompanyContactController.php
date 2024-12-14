@@ -63,13 +63,14 @@ class CompanyContactController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCompanyContactRequest $request, Company $company, #[CurrentUser] User $user)
+    public function store(StoreCompanyContactRequest $request, Company $company)
     {
-        $validated = $request->validated();
+        Gate::authorize('view', $company);
+        Gate::authorize('create', CompanyContact::class);
 
-        $user->companies()->findOrFail($validated['company_id'])->companyContacts()->create($validated);
+        $company->companyContacts()->create($request->validated());
 
-        return to_route("freelancer-space.company.company-contact.index", [$company->getKey()]);
+        return to_route("freelancer-space.company.company-contact.index", [$company]);
     }
 
     /**
