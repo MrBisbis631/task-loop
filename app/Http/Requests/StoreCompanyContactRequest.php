@@ -13,7 +13,7 @@ class StoreCompanyContactRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,17 +24,15 @@ class StoreCompanyContactRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'company_id' => 'exists:companies,id',
-
-            'first_name' => 'optional|string|max:255',
-            'last_name' => 'optional|string|max:255',
-            'email' => 'optional|string|max:255',
-            'phone' => 'optional|string|phone',
-            'title' => 'optional|string|max:255',
-            'job_title' => 'optional|string|max:255',
-            'preferred_contact_method' => Rule::enum(ContactMethodEnum::cases()),
+            'first_name' => 'string|max:255',
+            'last_name' => 'string|max:255',
+            'email' => 'sometimes|string|max:255|required_without:phone',
+            'phone' => 'sometimes|string|phone|required_without:email',
+            'title' => 'sometimes|string|max:255',
+            'job_title' => 'sometimes|string|max:255',
+            'preferred_contact_method' => ['sometimes', Rule::enum(ContactMethodEnum::class)],
             
-            'notes' => 'array|optional',
+            'notes' => 'array|sometimes',
             'notes.*.created_at' => 'date', 
             'notes.*.title' => 'string|max:255', 
             'notes.*.content' => 'string|max:255', 
