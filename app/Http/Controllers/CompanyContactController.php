@@ -29,7 +29,7 @@ class CompanyContactController extends Controller
         $activityStatus = $request->input('activityStatus', "");
 
         return Inertia::render("FreelancerSpace/Company/CompanyContact/Index", [
-            "query" => $query ?? null,
+            "query" => $query ?? "",
             "activityStatus" => $activityStatus ?? null,
 
             "contactMethodEnumAsArray" => ContactMethodEnum::toArray(),
