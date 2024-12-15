@@ -67,4 +67,14 @@ export default {
       { name: "Contacts", url: ["freelancer-space.company.company-contact.index", [company.id]] },
     ],
   },
+  "freelancer-space.theme.index": {
+    head: "Theme",
+    title: () => <span>Theme and Branding</span>,
+    description: () => <span>Manage your theme & branding.</span>,
+    getRoute: () => ({
+      name: "Theme",
+      url: "freelancer-space.theme.index",
+    }),
+    canAccess: user => user.role === "freelancer" || user.role === "admin" || user.role === "super-admin",
+  },
 } as { [key: string]: Page.PageDetailsBuilder<unknown> };
