@@ -3,6 +3,7 @@
 use App\Http\Controllers\CompanyContactController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ExternApiDetailController;
+use App\Http\Controllers\ThemeController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\EncryptHistoryMiddleware;
@@ -42,13 +43,15 @@ Route::middleware([
             ->parameter('external-api-details', 'externApiDetail')
             ->only(['index', 'store', 'update', 'destroy', 'show']);
 
+        Route::resource('theme', ThemeController::class)
+            ->only(['index', 'store', 'update', 'destroy']);
+
         Route::resource('company', CompanyController::class)
             ->only(['index', 'show', 'store', 'update', 'destroy']);
 
         Route::resource('company.company-contact', CompanyContactController::class)
             ->parameter('company-contact', 'companyContact')
             ->only(['index', 'store', 'update', 'destroy']);
-
 
         Route::get("/test", fn() => "Hello freelancer");
     });
