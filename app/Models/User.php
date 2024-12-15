@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Enums\RoleEnum;
 use App\Traits\Emailable;
 use App\Traits\Phoneable;
+use App\Traits\Themeable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -33,7 +34,7 @@ use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 ])]
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, HasProfilePhoto, HasTeams, Notifiable, TwoFactorAuthenticatable, Emailable, Phoneable;
+    use HasApiTokens, HasFactory, HasProfilePhoto, HasTeams, Notifiable, TwoFactorAuthenticatable, Emailable, Phoneable, Themeable;
 
     /**
      * The attributes that are mass assignable.
