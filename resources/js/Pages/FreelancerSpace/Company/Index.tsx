@@ -5,7 +5,7 @@ import { useDebounceValue } from "usehooks-ts";
 import { router } from "@inertiajs/react";
 import Checkbox from "@/Components/Checkbox";
 import { Label } from "@/components/ui/label";
-import ResourceCollectionTable from "@/components/ResourceCollectionTable";
+import ResourceCollectionTable from "@/components/table/table";
 import { columns } from "./CompaniesTableColumns";
 
 type Props = {

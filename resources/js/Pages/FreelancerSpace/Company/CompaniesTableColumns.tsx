@@ -6,7 +6,7 @@ import { InstagramLogoIcon, LinkedInLogoIcon, GlobeIcon } from "@radix-ui/react-
 import { cn } from "@/lib/utils";
 import Flag from "react-flagkit";
 import useRoute from "@/Hooks/useRoute";
-import { InternalLinkCell, LocationCell, PhoneCell } from "@/components/Cell";
+import { InternalLinkCell, LocationCell, PhoneCell } from "@/components/table/cell";
 
 export const columns: ColumnDef<App.Http.Resources.CompanyResource>[] = [
   {

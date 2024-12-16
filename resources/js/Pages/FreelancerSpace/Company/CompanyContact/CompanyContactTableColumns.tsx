@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import { EmailCell, PhoneCell, TextCell } from "@/components/Cell";
+import { EmailCell, PhoneCell, TextCell } from "@/components/table/cell";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";

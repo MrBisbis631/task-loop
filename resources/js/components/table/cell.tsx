@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from "react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { Link } from "@inertiajs/react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useToast } from "@/hooks/use-toast";

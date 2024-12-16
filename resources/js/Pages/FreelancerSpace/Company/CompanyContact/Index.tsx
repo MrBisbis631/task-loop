@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { columns } from "./CompanyContactTableColumns";
-import ResourceCollectionTable from "@/components/ResourceCollectionTable";
+import ResourceCollectionTable from "@/components/table/table";
 import { useRoute } from "ziggy-js";
 import { useDebounceValue } from "usehooks-ts";
 import { Input } from "@/components/ui/input";

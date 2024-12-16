@@ -1,3 +1,4 @@
+import ColorPicker from "@/components/ui/color-picker";
 import React from "react";
 
 type Props = {
@@ -5,7 +6,10 @@ type Props = {
 };
 
 function Index({ theme }: Props) {
-  return <div>Index</div>;
+  const [color, setColor] = React.useState("#fff");
+  return (<div>
+    <ColorPicker color={color} onSetColor={setColor} />
+  </div>);
 }
 
 export default Index;
