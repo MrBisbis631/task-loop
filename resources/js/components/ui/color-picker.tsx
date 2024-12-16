@@ -21,7 +21,7 @@ export default function ColorPicker({ color, onSetColor, className }: Props) {
   const [debounceColor, _] = useDebounceValue(color, 200);
 
   useEffect(() => {
-    if (color && !history.includes(color)) {
+    if (color?.match(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/) && !history.includes(color)) {
       setHistory([color, ...history].slice(0, 9));
     }
   }, [debounceColor]);
