@@ -5,7 +5,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { useToast } from "@/hooks/use-toast";
 import { ClipboardIcon } from "lucide-react";
 
-function Cell({ children, value }: React.PropsWithChildren<{ value: string }>) {
+export function Cell({ children, value, disabled = false }: React.PropsWithChildren<{ value: string; disabled?: boolean }>) {
   const { toast } = useToast();
 
   const copyValue = async () => {
@@ -15,6 +15,10 @@ function Cell({ children, value }: React.PropsWithChildren<{ value: string }>) {
       duration: 500,
     });
   };
+
+  if (disabled) {
+    return children;
+  }
 
   return (
     <Tooltip>
