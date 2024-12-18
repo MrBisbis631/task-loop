@@ -11,7 +11,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip";
 import { useDebounceValue } from "usehooks-ts";
 
 type Props = {
-  color: string;
+  color?: string;
   onSetColor: (color: string) => void;
   className?: string;
 };
@@ -26,7 +26,7 @@ export default function ColorPicker({ color, onSetColor, className }: Props) {
     }
   }, [debounceColor]);
 
-  const colorColor = color.match(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/) ? Color(color) : Color("#ffffff");
+  const colorColor = color?.match(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/) ? Color(color) : Color("#ffffff");
 
   const variants = [
     { label: "Lighten 0.1", value: colorColor.lighten(0.1).hex() },
@@ -60,7 +60,7 @@ export default function ColorPicker({ color, onSetColor, className }: Props) {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto space-y-2">
-        <Input id="custom" value={color} className={cn("col-span-2 w-full", color.startsWith("#ffffff") ? "shadow-sm" : "")} onChange={e => onSetColor(e.currentTarget.value)} />
+        <Input id="custom" value={color} className={cn("col-span-2 w-full", color?.startsWith("#ffffff") ? "shadow-sm" : "")} onChange={e => onSetColor(e.currentTarget.value)} />
         <HexColorPicker color={color} onChange={onSetColor} />
         <Badge className={cn(colorColor.isLight() ? "bg-gray-200 text-gray-800" : "bg-gray-800 text-gray-200")}>{colorColor.isDark() ? "Dark" : "Light"}</Badge>
 
