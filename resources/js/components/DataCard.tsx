@@ -1,10 +1,8 @@
-import React, { useId } from "react";
-import { Button } from "@/components/ui/button";
+import React from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
 import { Link } from "@inertiajs/react";
-import { ClipboardIcon, Link1Icon } from "@radix-ui/react-icons";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Link1Icon } from "@radix-ui/react-icons";
+import { Cell } from "@/components/table/cell";
 
 export type CardDataProps = {
   title: React.ReactNode;
@@ -22,76 +20,52 @@ export type CardDataProps = {
 };
 
 export default function DataCard({ description, title, items, actions }: CardDataProps) {
-  const id = useId();
-  const { toast } = useToast();
-
-  const copyAction = async (value: string) => {
-    await navigator.clipboard.writeText(value);
-    toast({
-      description: "The value has been copied to your clipboard",
-      duration: 1000,
-    });
-  };
-
   return (
-    <Card className="max-w-xl flex-auto flex flex-col justify-between">
-      <div className="">
-        {/* card title & description */}
-        <CardHeader>
-          <CardTitle>{title}</CardTitle>
-          <CardDescription>{description}</CardDescription>
-        </CardHeader>
+    <Card className="">
+      {/* card title & description */}
+      <CardHeader>
+        <CardTitle className="text-xl">{title}</CardTitle>
+        <CardDescription>{description}</CardDescription>
+      </CardHeader>
 
-        {/* card content with copy action */}
-        <CardContent className="grid grid-cols-[max-content_1fr_max-content_1fr] gap-x-1 gap-y-0.5">
-          {items
-            .filter(item => item.value)
-            .map(({ label, value, link }, index) => (
-              <>
-                <Button key={`${id}-${index}-title`} type="button" variant={"ghost"} size={"icon"} className="size-6" onClick={() => copyAction(value)}>
-                  <ClipboardIcon width={"14"} />
-                </Button>
-
-                <div key={`${id}-${index}-value`} className="">
-                  {/* label with link icon if link exists */}
-                  <span className="font-semibold text-sm relative">
-                    {label}
-                    {link ? <Link1Icon width={12} className="absolute -top-1 right-0 translate-x-full rotate-45" /> : null}
-                  </span>
-
-                  {/* tooltip with value & link if there is */}
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <div className="max-w-40 text-sm flex gap-1 items-center">
-                          {link ? (
-                            link.isInner ? (
-                              <Link href={link.href} className="hover:underline focus:underline truncate" target={link.onBlank ? "_blank" : ""}>
-                                {value}
-                              </Link>
-                            ) : (
-                              <a href={link.href} className="hover:underline focus:underline truncate" target={link.onBlank ? "_blank" : ""}>
-                                {value}
-                              </a>
-                            )
-                          ) : (
-                            <span className="truncate">{value}</span>
-                          )}
-                        </div>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <span>{value}</span>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+      {/* card content with copy action */}
+      <CardContent className="space-y-3">
+        {items.map(({ label, value, link }) => (
+          <div key={label} className="">
+            <Cell value={value} disabled={!value}>
+              {link && value ? (
+                <div className="">
+                  <div className="font-semibold text-sm relative max-w-max">
+                    <span className="">{label}</span>
+                    <Link1Icon width={12} className="absolute -top-1 right-0 translate-x-full rotate-45" />
+                  </div>
+                  {link.isInner ? (
+                    <Link href={link.href} className="hover:underline focus:underline block truncate" target={link.onBlank ? "_blank" : ""}>
+                      {value}
+                    </Link>
+                  ) : (
+                    <a href={link.href} className="hover:underline focus:underline block truncate" target={link.onBlank ? "_blank" : ""}>
+                      {value}
+                    </a>
+                  )}
                 </div>
-              </>
-            ))}
-        </CardContent>
-      </div>
+              ) : (
+                <div className="">
+                  <div className="font-semibold text-sm relative max-w-max">{label}</div>
+                  <div className="truncate">{value || "Missing info - add in  the form below."}</div>
+                </div>
+              )}
+            </Cell>
+          </div>
+        ))}
+      </CardContent>
 
       {/* actions */}
-      {actions ? <CardFooter>{actions}</CardFooter> : null}
+      {actions ? (
+        <CardFooter>
+          <CardFooter>{actions}</CardFooter>
+        </CardFooter>
+      ) : null}
     </Card>
   );
 }
