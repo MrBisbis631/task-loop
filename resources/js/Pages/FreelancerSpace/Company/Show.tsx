@@ -5,7 +5,7 @@ import UpdateContactDetailsCompanyForm from "./UpdateContactDetailsCompanyForm";
 import UpdateTaxDetailsCompanyForm from "./UpdateTaxDetailsCompanyForm";
 import { googleMapsLink } from "@/lib/utils";
 import { getName } from "i18n-iso-countries";
-import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type Props = {
   company: App.Http.Resources.CompanyResource;
@@ -19,12 +19,40 @@ type Props = {
 export default function Show({ company, companyTypeEnumAsArray }: Props) {
   return (
     <div className="">
-      <div className="">
+      <div className="max-w-2xl">
         <h1 className="text-2xl mb-2">Details & Info</h1>
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-2">
-          <DetailsCard title="General details" description="Company general details" items={getGeneralDetails(company)} actions={<UpdateGeneralDetailsCompanyForm company={company} />} />
-          <DetailsCard title="Contact details" description="Company contact and addresses details" items={getContactDetails(company)} actions={<UpdateContactDetailsCompanyForm company={company} />} />
-          <DetailsCard title="Tax details" description="Company taxing details" items={getTaxDetails(company)} actions={<UpdateTaxDetailsCompanyForm company={company} companyTypeEnumAsArray={companyTypeEnumAsArray} />} />
+        <div className="">
+          <Tabs defaultValue="general-details" className="flex flex-col">
+            <TabsList>
+              <TabsTrigger value="general-details" className="flex-1">
+                General Details
+              </TabsTrigger>
+              <TabsTrigger value="contact-details" className="flex-1">
+                Contact details
+              </TabsTrigger>
+              <TabsTrigger value="tax-details" className="flex-1">
+                Tax details
+              </TabsTrigger>
+              <TabsTrigger value="payment-details" className="flex-1">
+                Payment details
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="general-details">
+              <DetailsCard title="General details" description="Company general details" items={getGeneralDetails(company)} actions={<UpdateGeneralDetailsCompanyForm company={company} />} />
+            </TabsContent>
+            <TabsContent value="contact-details">
+              <DetailsCard title="Contact details" description="Company contact and addresses details" items={getContactDetails(company)} actions={<UpdateContactDetailsCompanyForm company={company} />} />
+            </TabsContent>
+            <TabsContent value="tax-details">
+              <DetailsCard title="Tax details" description="Company taxing details" items={getTaxDetails(company)} actions={<UpdateTaxDetailsCompanyForm company={company} companyTypeEnumAsArray={companyTypeEnumAsArray} />} />
+            </TabsContent>
+            <TabsContent value="payment-details">
+              <div className="">
+                {/* TODO implement */}
+                Coming soon...
+              </div>
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
     </div>
